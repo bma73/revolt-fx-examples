@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"4HHPY":[function(require,module,exports) {
+})({"9s3ig":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "4489c47d51280c6d";
+module.bundle.HMR_BUNDLE_ID = "de2ae368acae6b27";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -45054,7 +45054,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>hsl);
 var hsl = "fn getLuminosity(c: vec3<f32>) -> f32 {\n  return 0.3 * c.r + 0.59 * c.g + 0.11 * c.b;\n}\n\nfn setLuminosity(c: vec3<f32>, lum: f32) -> vec3<f32> {\n  let d: f32 = lum - getLuminosity(c);\n  let newColor: vec3<f32> = c.rgb + vec3<f32>(d, d, d);\n\n  // clip back into legal range\n  let newLum: f32 = getLuminosity(newColor);\n  let cMin: f32 = min(newColor.r, min(newColor.g, newColor.b));\n  let cMax: f32 = max(newColor.r, max(newColor.g, newColor.b));\n\n  let t1: f32 = newLum / (newLum - cMin);\n  let t2: f32 = (1.0 - newLum) / (cMax - newLum);\n\n  let finalColor = mix(vec3<f32>(newLum, newLum, newLum), newColor, select(select(1.0, t2, cMax > 1.0), t1, cMin < 0.0));\n\n  return finalColor;\n}\n\nfn getSaturation(c: vec3<f32>) -> f32 {\n  return max(c.r, max(c.g, c.b)) - min(c.r, min(c.g, c.b));\n}\n\n// Set saturation if color components are sorted in ascending order.\nfn setSaturationMinMidMax(cSorted: vec3<f32>, s: f32) -> vec3<f32> {\n  var result: vec3<f32>;\n  if (cSorted.z > cSorted.x) {\n    let newY = (((cSorted.y - cSorted.x) * s) / (cSorted.z - cSorted.x));\n    result = vec3<f32>(0.0, newY, s);\n  } else {\n    result = vec3<f32>(0.0, 0.0, 0.0);\n  }\n  return vec3<f32>(result.x, result.y, result.z);\n}\n\nfn setSaturation(c: vec3<f32>, s: f32) -> vec3<f32> {\n    var result: vec3<f32> = c;\n\n    if (c.r <= c.g && c.r <= c.b) {\n        if (c.g <= c.b) {\n            result = setSaturationMinMidMax(result, s);\n        } else {\n            var temp: vec3<f32> = vec3<f32>(result.r, result.b, result.g);\n            temp = setSaturationMinMidMax(temp, s);\n            result = vec3<f32>(temp.r, temp.b, temp.g);\n        }\n    } else if (c.g <= c.r && c.g <= c.b) {\n        if (c.r <= c.b) {\n            var temp: vec3<f32> = vec3<f32>(result.g, result.r, result.b);\n            temp = setSaturationMinMidMax(temp, s);\n            result = vec3<f32>(temp.g, temp.r, temp.b);\n        } else {\n            var temp: vec3<f32> = vec3<f32>(result.g, result.b, result.r);\n            temp = setSaturationMinMidMax(temp, s);\n            result = vec3<f32>(temp.g, temp.b, temp.r);\n        }\n    } else {\n        if (c.r <= c.g) {\n            var temp: vec3<f32> = vec3<f32>(result.b, result.r, result.g);\n            temp = setSaturationMinMidMax(temp, s);\n            result = vec3<f32>(temp.b, temp.r, temp.g);\n        } else {\n            var temp: vec3<f32> = vec3<f32>(result.b, result.g, result.r);\n            temp = setSaturationMinMidMax(temp, s);\n            result = vec3<f32>(temp.b, temp.g, temp.r);\n        }\n    }\n\n    return result;\n}";
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8xDeH":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kRSLf":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FX", ()=>(0, _fx.FX));
@@ -45094,24 +45094,24 @@ var _fxsignal = require("./util/FXSignal");
 var _componentType = require("./ComponentType");
 var _effectSequenceComponentType = require("./EffectSequenceComponentType");
 
-},{"./FX":"buhIZ","./BaseEffect":"eOx4a","./EffectSequence":"31gsL","./MovieClip":"jCc9O","./Particle":"abUpV","./ParticleEmitter":"bsSfk","./Sprite":"i8bmq","./core/BaseEmitterCore":"6vpKK","./core/BoxEmitterCore":"lgHCK","./core/CircleEmitterCore":"034fE","./core/RingEmitterCore":"aUAw1","./util/Color":"8iNHC","./util/Easing":"daN6K","./util/LinkedList":"f4H9S","./util/Rnd":"jeI0f","./util/FXSignal":"8rghA","./ComponentType":"7BjYC","./EffectSequenceComponentType":"2uSiF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"buhIZ":[function(require,module,exports) {
+},{"./FX":"1I3om","./BaseEffect":"6ccWH","./EffectSequence":"5udqW","./MovieClip":"iD0EN","./Particle":"b2W0V","./ParticleEmitter":"gb8J9","./Sprite":"7td6h","./core/BaseEmitterCore":"2BsJ6","./core/BoxEmitterCore":"aGdLB","./core/CircleEmitterCore":"VlyZK","./core/RingEmitterCore":"d7oDU","./util/Color":"6c0ie","./util/Easing":"aHH3h","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","./util/FXSignal":"9TYhH","./ComponentType":"7p3uS","./EffectSequenceComponentType":"ftCiq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1I3om":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FX", ()=>FX);
 var _pixiJs = require("pixi.js");
-var _particleEmitter = require("./ParticleEmitter");
-var _linkedList = require("./util/LinkedList");
-var _ringEmitterCore = require("./core/RingEmitterCore");
-var _circleEmitterCore = require("./core/CircleEmitterCore");
-var _boxEmitterCore = require("./core/BoxEmitterCore");
-var _effectSequence = require("./EffectSequence");
-var _sprite = require("./Sprite");
-var _particle = require("./Particle");
-var _movieClip = require("./MovieClip");
-var _sanitizer = require("./Sanitizer");
 var _componentType = require("./ComponentType");
+var _effectSequence = require("./EffectSequence");
 var _effectSequenceComponentType = require("./EffectSequenceComponentType");
+var _movieClip = require("./MovieClip");
+var _particle = require("./Particle");
+var _particleEmitter = require("./ParticleEmitter");
+var _sanitizer = require("./Sanitizer");
+var _sprite = require("./Sprite");
+var _boxEmitterCore = require("./core/BoxEmitterCore");
+var _circleEmitterCore = require("./core/CircleEmitterCore");
+var _ringEmitterCore = require("./core/RingEmitterCore");
+var _linkedList = require("./util/LinkedList");
 var __awaiter = undefined && undefined.__awaiter || function(thisArg, _arguments, P, generator) {
     function adopt(value) {
         return value instanceof P ? value : new P(function(resolve) {
@@ -45156,14 +45156,28 @@ class FX {
     // *********************************************************************************************
     // * Public										                                        	   *
     // *********************************************************************************************
-    start() {
+    /**
+     * Starts the process.
+     *
+     * @param {} - No parameters.
+     * @return {} - No return value.
+     */ start() {
         this._active = true;
         this._timeElapsed = Date.now();
     }
-    pause() {
+    /**
+     * Pauses the execution of the function.
+     *
+     * @param {}
+     * @return {}
+     */ pause() {
         this._active = false;
     }
-    update(delta = 1) {
+    /**
+     * Updates the state of the object based on the elapsed time.
+     *
+     * @param {number} delta - The time delta to update by. Default is 1.
+     */ update(delta = 1) {
         if (!this.active) return;
         const t = Date.now();
         let dt = (t - this._timeElapsed) * 0.001;
@@ -45178,7 +45192,12 @@ class FX {
         }
         this._timeElapsed = t;
     }
-    clearCache() {
+    /**
+     * Clears the cache by resetting all cache objects to empty values.
+     *
+     * @param {}
+     * @return {}
+     */ clearCache() {
         this._cache = {
             particles: [],
             mcs: [],
@@ -45198,11 +45217,17 @@ class FX {
             effectSequences: {}
         };
     }
-    setFloorY(value) {
+    /**
+     * Sets the value of the floorY property for all emitters in the settings cache.
+     *
+     * @param {number} value - The new value for the floorY property.
+     */ setFloorY(value) {
         const s = this._settingsCache.emitters;
         for(let n in s)s[n].floorY = value;
     }
-    dispose() {
+    /**
+     * Disposes of all the effects in the list and clears the cache.
+     */ dispose() {
         let list = this._effects;
         let node = list.first;
         while(node){
@@ -45212,7 +45237,15 @@ class FX {
         list.clear();
         this.clearCache();
     }
-    loadBundleFiles(bundleSettingsUrl, spritesheetUrl, spritesheetFilter = "", additionalAssets = []) {
+    /**
+     * Loads the bundle files and returns a promise that resolves to the parsed sprite sheet result.
+     *
+     * @param {string} bundleSettingsUrl - The URL of the bundle settings.
+     * @param {string} spritesheetUrl - The URL of the sprite sheet.
+     * @param {string} spritesheetFilter - The filter for the sprite sheet. Default is an empty string.
+     * @param {string[]} additionalAssets - An array of additional asset URLs. Default is an empty array.
+     * @return {Promise<IParseSpriteSheetResult>} A promise that resolves to the parsed sprite sheet result.
+     */ loadBundleFiles(bundleSettingsUrl, spritesheetUrl, spritesheetFilter = "", additionalAssets = []) {
         return new Promise((resolve, reject)=>__awaiter(this, void 0, void 0, function*() {
                 const data = {
                     "rfx_spritesheet": spritesheetUrl,
@@ -45224,7 +45257,13 @@ class FX {
                 resolve(this.initBundle(assets.rfx_bundleSettings));
             }));
     }
-    initBundle(bundleSettings, clearCache) {
+    /**
+     * Initializes the bundle with the given settings and optionally clears the cache.
+     *
+     * @param {any} bundleSettings - The settings for the bundle.
+     * @param {boolean} clearCache - Whether to clear the cache or not. Optional, default is false.
+     * @returns {IParseSpriteSheetResult} The result of parsing the sprite sheet.
+     */ initBundle(bundleSettings, clearCache) {
         if (bundleSettings.__h !== FX._bundleHash) throw new Error("Invalid settings file.");
         if (bundleSettings.__v != FX.settingsVersion) throw new Error("Settings version mismatch.");
         (0, _sanitizer.Sanitizer).sanitizeBundle(bundleSettings);
@@ -45241,43 +45280,93 @@ class FX {
         this.maxParticles = bundleSettings.maxParticles;
         return this.parseTextureCache(bundleSettings.spritesheetFilter);
     }
-    addParticleEmitter(componentId, settings) {
+    /**
+     * Adds a particle emitter to the FX object.
+     *
+     * @param {string} componentId - The unique identifier for the emitter component.
+     * @param {IEmitterSettings} settings - The settings for the emitter.
+     * @throws {Error} Throws an error if the componentId already exists.
+     * @return {FX} Returns the FX object for chaining.
+     */ addParticleEmitter(componentId, settings) {
         if (this._settingsCache.emitters[componentId]) throw new Error(`ComponentId '${componentId}' already exists.`);
         this._settingsCache.emitters[componentId] = settings;
         this._nameMaps.emitters[settings.name] = settings;
         return this;
     }
-    addEffectSequence(componentId, settings) {
+    /**
+     * Adds an effect sequence to the component with the specified ID.
+     *
+     * @param {string} componentId - The ID of the component.
+     * @param {IEffectSequenceSettings} settings - The settings for the effect sequence.
+     * @throws {Error} If a component with the same ID already exists.
+     * @return {FX} The current instance of the FX class.
+     */ addEffectSequence(componentId, settings) {
         if (this._settingsCache.effectSequences[componentId]) throw new Error(`ComponentId '${componentId}' already exists.`);
         this._settingsCache.effectSequences[componentId] = settings;
         this._nameMaps.effectSequences[settings.name] = settings;
         return this;
     }
-    initSprite(componentId, settings) {
+    /**
+     * Initializes a sprite with the specified component ID and settings.
+     *
+     * @param {string} componentId - The ID of the component.
+     * @param {ISpriteSettings} settings - The settings for the sprite.
+     * @throws {Error} Throws an error if the component ID already exists.
+     * @returns {FX} Returns the current instance of the FX class.
+     */ initSprite(componentId, settings) {
         if (this._settingsCache.sprites[componentId]) throw new Error(`ComponentId '${componentId}' already exists.`);
         this._settingsCache.sprites[componentId] = settings;
         return this;
     }
-    initMovieClip(componentId, settings) {
+    /**
+     * Initializes a movie clip with the specified component ID and settings.
+     *
+     * @param {string} componentId - The unique identifier for the movie clip component.
+     * @param {IMovieClipSettings} settings - The settings for the movie clip.
+     * @return {FX} The instance of the FX class.
+     */ initMovieClip(componentId, settings) {
         if (this._settingsCache.mcs[componentId]) throw new Error(`ComponentId '${componentId}' already exists.`);
         this._settingsCache.mcs[componentId] = settings;
         return this;
     }
-    getMovieClips() {
+    /**
+     * Retrieves the movie clips from the settings cache.
+     *
+     * @return {Object} An object containing movie clip settings.
+     */ getMovieClips() {
         return this._settingsCache.mcs;
     }
-    getSprites() {
+    /**
+     * Retrieves the sprites from the settings cache.
+     *
+     * @return {Object} An object containing sprite settings.
+     */ getSprites() {
         return this._settingsCache.sprites;
     }
-    addContainer(key, container) {
+    /**
+     * Adds a container to the __containers object with the specified key.
+     *
+     * @param {string} key - The key used to identify the container in the __containers object.
+     * @param {PIXI.Container} container - The container to be added.
+     */ addContainer(key, container) {
         this.__containers[key] = container;
     }
-    getEffectSequence(name) {
+    /**
+     * Retrieves the EffectSequence object with the specified name.
+     *
+     * @param {string} name - The name of the EffectSequence to retrieve.
+     * @return {EffectSequence} - The EffectSequence object with the specified name.
+     */ getEffectSequence(name) {
         const settings = this._nameMaps.effectSequences[name];
         if (!settings) throw new Error(`Settings not defined for '${name}'`);
         return this.getEffectSequenceById(settings.id);
     }
-    getEffectSequenceById(componentId) {
+    /**
+     * Retrieves an EffectSequence object by its component ID.
+     *
+     * @param {string} componentId - The ID of the component.
+     * @return {EffectSequence} The retrieved EffectSequence object.
+     */ getEffectSequenceById(componentId) {
         const pool = this._cache.effectSequences;
         let effectSequence;
         let settings = this._settingsCache.effectSequences[componentId];
@@ -45289,12 +45378,26 @@ class FX {
         effectSequence.__applySettings(settings);
         return effectSequence;
     }
-    getParticleEmitter(name, autoRecycleOnComplete = true, cloneSettings = false) {
+    /**
+     * Retrieves a particle emitter by its name.
+     *
+     * @param {string} name - The name of the particle emitter.
+     * @param {boolean} autoRecycleOnComplete - (Optional) Specifies whether the emitter should auto recycle when complete. Default is true.
+     * @param {boolean} cloneSettings - (Optional) Specifies whether the emitter settings should be cloned. Default is false.
+     * @return {ParticleEmitter} The particle emitter with the specified name.
+     */ getParticleEmitter(name, autoRecycleOnComplete = true, cloneSettings = false) {
         const settings = this._nameMaps.emitters[name];
         if (!settings) throw new Error(`Settings not defined for '${name}'`);
         return this.getParticleEmitterById(settings.id, autoRecycleOnComplete, cloneSettings);
     }
-    getParticleEmitterById(componentId, autoRecycleOnComplete = true, cloneSettings = false) {
+    /**
+     * Retrieves a particle emitter by its component ID.
+     *
+     * @param {string} componentId - The ID of the component.
+     * @param {boolean} autoRecycleOnComplete - Whether the emitter should automatically recycle itself when it completes.
+     * @param {boolean} cloneSettings - Whether to clone the settings object before applying them to the emitter.
+     * @return {ParticleEmitter} The retrieved particle emitter.
+     */ getParticleEmitterById(componentId, autoRecycleOnComplete = true, cloneSettings = false) {
         const pool = this._cache.emitters;
         let emitter;
         let settings = this._settingsCache.emitters[componentId];
@@ -45308,26 +45411,47 @@ class FX {
         emitter.__applySettings(settings);
         return emitter;
     }
-    stopEmitter(emitter, dispose = false) {
+    /**
+     * Stops the specified particle emitter.
+     *
+     * @param {ParticleEmitter} emitter - The particle emitter to stop.
+     * @param {boolean} [dispose=false] - Whether to dispose the emitter or recycle it.
+     */ stopEmitter(emitter, dispose = false) {
         if (emitter.list === this._effects) this._effects.remove(emitter);
         if (dispose) emitter.dispose();
         else this.__recycleEmitter(emitter);
     }
-    stopAllEffects() {
+    /**
+     * Stops all effects.
+     *
+     * @param {none} none - This function does not take any parameters.
+     * @return {void} This function does not return a value.
+     */ stopAllEffects() {
         const list = this._effects.toArray();
         for (let node of list)node.recycle();
     }
-    parseSpriteSheet(spriteSheet, filter) {
+    /**
+     * Parses a sprite sheet.
+     *
+     * @param {PIXI.Spritesheet} spriteSheet - The sprite sheet to parse.
+     * @param {string} filter - Optional filter to apply to the sprite sheet.
+     * @return {IParseSpriteSheetResult} The result of parsing the sprite sheet.
+     */ parseSpriteSheet(spriteSheet, filter) {
         return this.parseObject(spriteSheet.data.frames, filter);
     }
-    parseTextureCache(filter) {
-        const p = _pixiJs;
-        // @ts-ignore
-        if (p["utils"] !== undefined) // Pixi 7.3.x
-        return this.parseObject(p["utils"].TextureCache, filter);
-        return this.parseObject(p["Cache"]["_cache"], filter);
+    /**
+     * Parses the texture cache and returns the result as an IParseSpriteSheetResult object.
+     *
+     * @param {string} [filter] - An optional parameter to filter the results.
+     * @returns {IParseSpriteSheetResult} - The parsed sprite sheet result.
+     */ parseTextureCache(filter) {
+        return this.parseObject(_pixiJs["Cache"]["_cache"], filter);
     }
-    get active() {
+    /**
+     * Returns if the FX instance is active.
+     *
+     * @return {boolean} The value of the 'active' property.
+     */ get active() {
         return this._active;
     }
     // *********************************************************************************************
@@ -45446,7 +45570,7 @@ class FX {
     }
 }
 FX.settingsVersion = 0;
-FX.version = "1.1.0";
+FX.version = "1.3.2";
 FX._bundleHash = "80c6df7fb0d3d898f34ce0031c037fef";
 FX.ComponentType = (0, _componentType.ComponentType);
 FX.EffectSequenceComponentType = (0, _effectSequenceComponentType.EffectSequenceComponentType);
@@ -45456,7 +45580,407 @@ FX.__emitterCores = {
     ring: (0, _ringEmitterCore.RingEmitterCore)
 };
 
-},{"pixi.js":"1arn0","./ParticleEmitter":"bsSfk","./util/LinkedList":"f4H9S","./core/RingEmitterCore":"aUAw1","./core/CircleEmitterCore":"034fE","./core/BoxEmitterCore":"lgHCK","./EffectSequence":"31gsL","./Sprite":"i8bmq","./Particle":"abUpV","./MovieClip":"jCc9O","./Sanitizer":"64plf","./ComponentType":"7BjYC","./EffectSequenceComponentType":"2uSiF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bsSfk":[function(require,module,exports) {
+},{"pixi.js":"1arn0","./ComponentType":"7p3uS","./EffectSequence":"5udqW","./EffectSequenceComponentType":"ftCiq","./MovieClip":"iD0EN","./Particle":"b2W0V","./ParticleEmitter":"gb8J9","./Sanitizer":"h9AGS","./Sprite":"7td6h","./core/BoxEmitterCore":"aGdLB","./core/CircleEmitterCore":"VlyZK","./core/RingEmitterCore":"d7oDU","./util/LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7p3uS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ComponentType", ()=>ComponentType);
+var ComponentType;
+(function(ComponentType) {
+    ComponentType[ComponentType["Sprite"] = 0] = "Sprite";
+    ComponentType[ComponentType["MovieClip"] = 1] = "MovieClip";
+})(ComponentType || (ComponentType = {}));
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5udqW":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence);
+var _baseEffect = require("./BaseEffect");
+var _linkedList = require("./util/LinkedList");
+var _particleEmitter = require("./ParticleEmitter");
+var _rnd = require("./util/Rnd");
+var _fxsignal = require("./util/FXSignal");
+var _effectSequenceComponentType = require("./EffectSequenceComponentType");
+class EffectSequence extends (0, _baseEffect.BaseEffect) {
+    constructor(componentId){
+        super(componentId);
+        this._list = [];
+        this._elements = new (0, _linkedList.LinkedList)();
+        this.__on = {
+            started: new (0, _fxsignal.FXSignal)(),
+            completed: new (0, _fxsignal.FXSignal)(),
+            exhausted: new (0, _fxsignal.FXSignal)(),
+            effectSpawned: new (0, _fxsignal.FXSignal)(),
+            triggerActivated: new (0, _fxsignal.FXSignal)()
+        };
+    }
+    // *********************************************************************************************
+    // * Public																			                                        		   *
+    // *********************************************************************************************
+    init(container, delay = 0, autoStart = true, scaleMod = 1) {
+        this.container = container;
+        this._scaleMod = scaleMod;
+        this._delay = delay * 1000;
+        if (autoStart) this.start();
+        return this;
+    }
+    start() {
+        if (this._active) return;
+        this._startTime = Date.now() + (this.settings.delay ? this.settings.delay * 1000 : 0) + this._delay;
+        this._index = 0;
+        if (this._list.length == 0) {
+            this._active = false;
+            if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            this.recycle();
+            return this;
+        }
+        this.exhausted = this.completed = false;
+        this.setNextEffect();
+        this.__fx.effectSequenceCount++;
+        this.__fx.__addActiveEffect(this);
+        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
+        return this;
+    }
+    update(dt) {
+        const t = Date.now();
+        if (t < this._startTime) return;
+        this._time += dt;
+        if (!this.exhausted && t >= this._effectStartTime) {
+            const fx = this.__fx;
+            const def = this._nextEffectSettings;
+            let effect;
+            let node;
+            let container;
+            switch(def.componentType){
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite:
+                    effect = fx.__getSprite(def.componentId);
+                    container = fx.__containers[def.containerId] || this.container;
+                    container.addChild(effect);
+                    effect.blendMode = fx.useBlendModes ? def.blendMode : 0;
+                    effect.tint = def.tint;
+                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
+                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: t + def.duration * 1000
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip:
+                    effect = fx.__getMovieClip(def.componentId);
+                    if (def.componentParams.loop) {
+                        effect.animationSpeed = (0, _rnd.Rnd).float(def.componentParams.animationSpeedMin || 1, def.componentParams.animationSpeedMax || 1);
+                        effect.loop = def.componentParams.loop || false;
+                    } else {
+                        const speed = def.duration;
+                    }
+                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
+                    effect.gotoAndPlay(0);
+                    container = fx.__containers[def.containerId] || this.container;
+                    container.addChild(effect);
+                    effect.blendMode = fx.useBlendModes ? def.blendMode : 0;
+                    effect.tint = def.tint;
+                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: t + def.duration * 1000
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter:
+                    effect = fx.getParticleEmitterById(def.componentId);
+                    container = fx.__containers[def.containerId] || this.container;
+                    effect.init(container, true, (0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: effect.endTime
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + effect.settings.rotation;
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Trigger:
+                    if (this.__on.triggerActivated.__hasCallback) this.__on.triggerActivated.dispatch(def.triggerValue);
+                    break;
+            }
+            if (this._index == this._list.length) {
+                this.exhausted = true;
+                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
+            } else this.setNextEffect();
+        }
+        const list = this._elements;
+        let node = list.first;
+        while(node){
+            node.update(dt);
+            if (t > node.data.endTime) {
+                const component = node.data.component;
+                if (component instanceof (0, _particleEmitter.ParticleEmitter)) {
+                    if (component.completed) list.remove(node);
+                } else {
+                    list.remove(node);
+                    component.recycle();
+                }
+            }
+            node = node.next;
+        }
+        if (this.exhausted && list.length == 0) {
+            this._active = false;
+            this.completed = true;
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            this.recycle();
+        }
+    }
+    stop() {
+        this.recycle();
+    }
+    recycle() {
+        if (this.__recycled) return;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.component.recycle();
+            node = next;
+        }
+        const on = this.__on;
+        if (on.completed.__hasCallback) on.completed.removeAll();
+        if (on.started.__hasCallback) on.started.removeAll();
+        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
+        if (on.effectSpawned.__hasCallback) on.effectSpawned.removeAll();
+        if (on.triggerActivated.__hasCallback) on.triggerActivated.removeAll();
+        list.clear();
+        this.__recycled = true;
+        this._x = this._y = this._rotation = 0;
+        this.__fx.effectSequenceCount--;
+        this.__fx.__recycleEffectSequence(this);
+    }
+    dispose() {
+        this._elements.clear();
+        this.__fx = undefined;
+        const on = this.__on;
+        on.completed = on.started = on.exhausted = on.effectSpawned = on.triggerActivated = undefined;
+    }
+    set rotation(value) {
+        this._rotation = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.rotation = value;
+            node = next;
+        }
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.x = value;
+            node = next;
+        }
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.y = value;
+            node = next;
+        }
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    get on() {
+        return this.__on;
+    }
+    // *********************************************************************************************
+    // * Private																		           *                              		   
+    // *********************************************************************************************
+    setNextEffect() {
+        if (this.exhausted) return;
+        const def = this._nextEffectSettings = this._list[this._index++];
+        this._effectStartTime = this._startTime + def.delay * 1000;
+    }
+    // *********************************************************************************************
+    // * Internal																		           *                              		   
+    // *********************************************************************************************
+    __applySettings(value) {
+        this.settings = value;
+        this.name = value.name;
+        this._list = value.effects.slice();
+        this.__recycled = false;
+    }
+}
+
+},{"./BaseEffect":"6ccWH","./util/LinkedList":"55Vu6","./ParticleEmitter":"gb8J9","./util/Rnd":"a0poX","./util/FXSignal":"9TYhH","./EffectSequenceComponentType":"ftCiq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6ccWH":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect);
+var _pixiJs = require("pixi.js");
+var _linkedList = require("./util/LinkedList");
+class BaseEffect extends (0, _linkedList.Node) {
+    constructor(componentId){
+        super();
+        this.componentId = componentId;
+        this.exhausted = false;
+        this.completed = false;
+        this.name = "";
+        this.endTime = 0;
+        this._x = 0;
+        this._y = 0;
+        this._rotation = 0;
+        this._alpha = 0;
+        this._scale = new _pixiJs.Point();
+        this._time = 0;
+        this._active = false;
+        this.__recycled = true;
+    }
+    // *********************************************************************************************
+    // * Public																					                                           *
+    // *********************************************************************************************
+    update(dt) {}
+    recycle() {}
+    get active() {
+        return this._active;
+    }
+    get scale() {
+        return this._scale;
+    }
+    set scale(value) {
+        this._scale = value;
+    }
+    get alpha() {
+        return this._alpha;
+    }
+    set alpha(value) {
+        this._alpha = value;
+    }
+    set rotation(value) {
+        this._rotation = value;
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+    }
+    // *********************************************************************************************
+    // * internal										                                        										   *
+    // *********************************************************************************************
+    __applySettings(value) {}
+}
+
+},{"pixi.js":"1arn0","./util/LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"55Vu6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LinkedList", ()=>LinkedList);
+parcelHelpers.export(exports, "Node", ()=>Node);
+class LinkedList {
+    constructor(){
+        this.__length = 0;
+    }
+    // *********************************************************************************************
+    // * Public																                       *
+    // *********************************************************************************************
+    get length() {
+        return this.__length;
+    }
+    add(node) {
+        if (this.first == null) this.first = this.last = node;
+        else {
+            node.prev = this.last;
+            this.last.next = node;
+            this.last = node;
+        }
+        node.list = this;
+        this.__length++;
+        return this;
+    }
+    remove(node) {
+        if (node.list == null) return;
+        if (this.first === this.last) this.first = this.last = null;
+        else if (this.__length > 0) {
+            if (node === this.last) {
+                node.prev.next = null;
+                this.last = node.prev;
+            } else if (node === this.first) {
+                node.next.prev = null;
+                this.first = node.next;
+            } else {
+                node.next.prev = node.prev;
+                node.prev.next = node.next;
+            }
+        }
+        node.next = node.prev = node.list = null;
+        this.__length--;
+        return this;
+    }
+    clear() {
+        if (!this.first) return;
+        let node = this.first;
+        while(node){
+            let next = node.next;
+            node.next = node.prev = node.list = null;
+            node = next;
+        }
+        this.first = this.last = null;
+    }
+    toArray() {
+        const ret = [];
+        if (!this.first) return ret;
+        let node = this.first;
+        while(node){
+            ret.push(node);
+            node = node.next;
+        }
+        return ret;
+    }
+}
+class Node {
+    constructor(data){
+        this.data = data;
+    }
+    update(dt) {}
+    dispose() {}
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gb8J9":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -45839,149 +46363,7 @@ class ParticleEmitter extends (0, _baseEffect.BaseEffect) {
     }
 }
 
-},{"./BaseEffect":"eOx4a","./util/LinkedList":"f4H9S","./util/Rnd":"jeI0f","./util/FXSignal":"8rghA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eOx4a":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect);
-var _pixiJs = require("pixi.js");
-var _linkedList = require("./util/LinkedList");
-class BaseEffect extends (0, _linkedList.Node) {
-    constructor(componentId){
-        super();
-        this.componentId = componentId;
-        this.exhausted = false;
-        this.completed = false;
-        this.name = "";
-        this.endTime = 0;
-        this._x = 0;
-        this._y = 0;
-        this._rotation = 0;
-        this._alpha = 0;
-        this._scale = new _pixiJs.Point();
-        this._time = 0;
-        this._active = false;
-        this.__recycled = true;
-    }
-    // *********************************************************************************************
-    // * Public																					                                           *
-    // *********************************************************************************************
-    update(dt) {}
-    recycle() {}
-    get active() {
-        return this._active;
-    }
-    get scale() {
-        return this._scale;
-    }
-    set scale(value) {
-        this._scale = value;
-    }
-    get alpha() {
-        return this._alpha;
-    }
-    set alpha(value) {
-        this._alpha = value;
-    }
-    set rotation(value) {
-        this._rotation = value;
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = value;
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = value;
-    }
-    // *********************************************************************************************
-    // * internal										                                        										   *
-    // *********************************************************************************************
-    __applySettings(value) {}
-}
-
-},{"pixi.js":"1arn0","./util/LinkedList":"f4H9S","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f4H9S":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "LinkedList", ()=>LinkedList);
-parcelHelpers.export(exports, "Node", ()=>Node);
-class LinkedList {
-    constructor(){
-        this.__length = 0;
-    }
-    // *********************************************************************************************
-    // * Public																                       *
-    // *********************************************************************************************
-    get length() {
-        return this.__length;
-    }
-    add(node) {
-        if (this.first == null) this.first = this.last = node;
-        else {
-            node.prev = this.last;
-            this.last.next = node;
-            this.last = node;
-        }
-        node.list = this;
-        this.__length++;
-        return this;
-    }
-    remove(node) {
-        if (node.list == null) return;
-        if (this.first === this.last) this.first = this.last = null;
-        else if (this.__length > 0) {
-            if (node === this.last) {
-                node.prev.next = null;
-                this.last = node.prev;
-            } else if (node === this.first) {
-                node.next.prev = null;
-                this.first = node.next;
-            } else {
-                node.next.prev = node.prev;
-                node.prev.next = node.next;
-            }
-        }
-        node.next = node.prev = node.list = null;
-        this.__length--;
-        return this;
-    }
-    clear() {
-        if (!this.first) return;
-        let node = this.first;
-        while(node){
-            let next = node.next;
-            node.next = node.prev = node.list = null;
-            node = next;
-        }
-        this.first = this.last = null;
-    }
-    toArray() {
-        const ret = [];
-        if (!this.first) return ret;
-        let node = this.first;
-        while(node){
-            ret.push(node);
-            node = node.next;
-        }
-        return ret;
-    }
-}
-class Node {
-    constructor(data){
-        this.data = data;
-    }
-    update(dt) {}
-    dispose() {}
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jeI0f":[function(require,module,exports) {
+},{"./BaseEffect":"6ccWH","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","./util/FXSignal":"9TYhH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a0poX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Rnd", ()=>Rnd);
@@ -46003,7 +46385,7 @@ class Rnd {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8rghA":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9TYhH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FXSignal", ()=>FXSignal);
@@ -46070,439 +46452,7 @@ class FXSignalListener {
     }
 }
 
-},{"./LinkedList":"f4H9S","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aUAw1":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore);
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _rnd = require("../util/Rnd");
-class RingEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_RING);
-    }
-    // *********************************************************************************************
-    // * Public																		               *
-    // *********************************************************************************************
-    prepare(spawnCount) {
-        super.prepare(spawnCount);
-        const angle = this._settings.angle;
-        if (2 * Math.PI - angle < 0.1) {
-            this._uniformStep = angle / spawnCount;
-            this._angle = angle;
-        } else {
-            this._uniformStep = angle / (spawnCount - 1);
-            this._angle = -angle * 0.5;
-        }
-    }
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        let angle;
-        if (settings.uniform) {
-            angle = this._angle + emitter.rotation;
-            this._angle += this._uniformStep;
-        } else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
-        const r = settings.radius * this.__scaleMod;
-        particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
-        particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
-        if (settings.radial) {
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-            particle.component.rotation = angle;
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-            particle.component.rotation = emitter.rotation;
-        }
-        this._t += this._posInterpolationStep;
-    }
-}
-
-},{"./BaseEmitterCore":"6vpKK","../util/Rnd":"jeI0f","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6vpKK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore);
-class BaseEmitterCore {
-    constructor(type){
-        this.type = type;
-        this._dx = 0;
-        this._dy = 0;
-        this._rotation = 0;
-    }
-    // *********************************************************************************************
-    // * Public			                                        								   *
-    // *********************************************************************************************
-    init(emitter) {
-        this.emitter = emitter;
-        this._settings = emitter.settings.core.params;
-        this.x = this.__x = emitter.x;
-        this.y = this.__y = emitter.y;
-        this.rotation = emitter.rotation;
-    }
-    emit(particle) {}
-    prepare(spawnCount) {
-        this._posInterpolationStep = 1 / spawnCount;
-        this._t = this._posInterpolationStep * 0.5;
-    }
-    step() {
-        this.__x = this.x;
-        this.__y = this.y;
-    }
-    recycle() {
-        this.emitter = null;
-        this._settings = null;
-    }
-    dispose() {
-        this.recycle();
-        this.emitter = null;
-        this._settings = null;
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    set rotation(value) {
-        this._rotation = value;
-        this._dx = Math.cos(value);
-        this._dy = Math.sin(value);
-    }
-}
-BaseEmitterCore.__TYPE_BOX = "box";
-BaseEmitterCore.__TYPE_CIRCLE = "circle";
-BaseEmitterCore.__TYPE_RING = "ring";
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"034fE":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore);
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _rnd = require("../util/Rnd");
-class CircleEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_CIRCLE);
-    }
-    // *********************************************************************************************
-    // * Public																	                   *
-    // *********************************************************************************************
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        let angle;
-        if (!settings.angle) angle = (0, _rnd.Rnd).float(0, 6.28319) + emitter.rotation;
-        else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
-        if (settings.radius > 0) {
-            let r = (0, _rnd.Rnd).float(0, settings.radius) * this.__scaleMod;
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
-        } else {
-            particle.component.x = this.__x + this._t * (this.x - this.__x);
-            particle.component.y = this.__y + this._t * (this.y - this.__y);
-        }
-        if (settings.radial) {
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-            particle.component.rotation = angle;
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-            particle.component.rotation = emitter.rotation;
-        }
-        this._t += this._posInterpolationStep;
-    }
-}
-
-},{"./BaseEmitterCore":"6vpKK","../util/Rnd":"jeI0f","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lgHCK":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore);
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _rnd = require("../util/Rnd");
-class BoxEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_BOX);
-    }
-    // *********************************************************************************************
-    // * Public																					   *
-    // *********************************************************************************************
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        const w2 = settings.width * 0.5 * this.__scaleMod;
-        const h2 = settings.height * 0.5 * this.__scaleMod;
-        let angle = emitter.rotation;
-        const x = (0, _rnd.Rnd).float(-w2, w2);
-        const y = (0, _rnd.Rnd).float(-h2, h2);
-        if (angle != 0) {
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + x * Math.cos(angle) - y * Math.sin(angle);
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + x * Math.sin(angle) + y * Math.cos(angle);
-        } else {
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + x;
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + y;
-        }
-        if (settings.radial) {
-            angle += Math.atan2(y, x);
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-        }
-        particle.component.rotation = angle;
-        this._t += this._posInterpolationStep;
-    }
-}
-
-},{"./BaseEmitterCore":"6vpKK","../util/Rnd":"jeI0f","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"31gsL":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence);
-var _baseEffect = require("./BaseEffect");
-var _linkedList = require("./util/LinkedList");
-var _particleEmitter = require("./ParticleEmitter");
-var _rnd = require("./util/Rnd");
-var _fxsignal = require("./util/FXSignal");
-var _effectSequenceComponentType = require("./EffectSequenceComponentType");
-class EffectSequence extends (0, _baseEffect.BaseEffect) {
-    constructor(componentId){
-        super(componentId);
-        this._list = [];
-        this._elements = new (0, _linkedList.LinkedList)();
-        this.__on = {
-            started: new (0, _fxsignal.FXSignal)(),
-            completed: new (0, _fxsignal.FXSignal)(),
-            exhausted: new (0, _fxsignal.FXSignal)(),
-            effectSpawned: new (0, _fxsignal.FXSignal)(),
-            triggerActivated: new (0, _fxsignal.FXSignal)()
-        };
-    }
-    // *********************************************************************************************
-    // * Public																			                                        		   *
-    // *********************************************************************************************
-    init(container, delay = 0, autoStart = true, scaleMod = 1) {
-        this.container = container;
-        this._scaleMod = scaleMod;
-        this._delay = delay * 1000;
-        if (autoStart) this.start();
-        return this;
-    }
-    start() {
-        if (this._active) return;
-        this._startTime = Date.now() + (this.settings.delay ? this.settings.delay * 1000 : 0) + this._delay;
-        this._index = 0;
-        if (this._list.length == 0) {
-            this._active = false;
-            if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            this.recycle();
-            return this;
-        }
-        this.exhausted = this.completed = false;
-        this.setNextEffect();
-        this.__fx.effectSequenceCount++;
-        this.__fx.__addActiveEffect(this);
-        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
-        return this;
-    }
-    update(dt) {
-        const t = Date.now();
-        if (t < this._startTime) return;
-        this._time += dt;
-        if (!this.exhausted && t >= this._effectStartTime) {
-            const fx = this.__fx;
-            const def = this._nextEffectSettings;
-            let effect;
-            let node;
-            let container;
-            switch(def.componentType){
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite:
-                    effect = fx.__getSprite(def.componentId);
-                    container = fx.__containers[def.containerId] || this.container;
-                    container.addChild(effect);
-                    effect.blendMode = fx.useBlendModes ? def.blendMode : 0;
-                    effect.tint = def.tint;
-                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
-                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: t + def.duration * 1000
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip:
-                    effect = fx.__getMovieClip(def.componentId);
-                    if (def.componentParams.loop) {
-                        effect.animationSpeed = (0, _rnd.Rnd).float(def.componentParams.animationSpeedMin || 1, def.componentParams.animationSpeedMax || 1);
-                        effect.loop = def.componentParams.loop || false;
-                    } else {
-                        const speed = def.duration;
-                    }
-                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
-                    effect.gotoAndPlay(0);
-                    container = fx.__containers[def.containerId] || this.container;
-                    container.addChild(effect);
-                    effect.blendMode = fx.useBlendModes ? def.blendMode : 0;
-                    effect.tint = def.tint;
-                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: t + def.duration * 1000
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter:
-                    effect = fx.getParticleEmitterById(def.componentId);
-                    container = fx.__containers[def.containerId] || this.container;
-                    effect.init(container, true, (0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: effect.endTime
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + effect.settings.rotation;
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Trigger:
-                    if (this.__on.triggerActivated.__hasCallback) this.__on.triggerActivated.dispatch(def.triggerValue);
-                    break;
-            }
-            if (this._index == this._list.length) {
-                this.exhausted = true;
-                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
-            } else this.setNextEffect();
-        }
-        const list = this._elements;
-        let node = list.first;
-        while(node){
-            node.update(dt);
-            if (t > node.data.endTime) {
-                const component = node.data.component;
-                if (component instanceof (0, _particleEmitter.ParticleEmitter)) {
-                    if (component.completed) list.remove(node);
-                } else {
-                    list.remove(node);
-                    component.recycle();
-                }
-            }
-            node = node.next;
-        }
-        if (this.exhausted && list.length == 0) {
-            this._active = false;
-            this.completed = true;
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            this.recycle();
-        }
-    }
-    stop() {
-        this.recycle();
-    }
-    recycle() {
-        if (this.__recycled) return;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.component.recycle();
-            node = next;
-        }
-        const on = this.__on;
-        if (on.completed.__hasCallback) on.completed.removeAll();
-        if (on.started.__hasCallback) on.started.removeAll();
-        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
-        if (on.effectSpawned.__hasCallback) on.effectSpawned.removeAll();
-        if (on.triggerActivated.__hasCallback) on.triggerActivated.removeAll();
-        list.clear();
-        this.__recycled = true;
-        this._x = this._y = this._rotation = 0;
-        this.__fx.effectSequenceCount--;
-        this.__fx.__recycleEffectSequence(this);
-    }
-    dispose() {
-        this._elements.clear();
-        this.__fx = undefined;
-        const on = this.__on;
-        on.completed = on.started = on.exhausted = on.effectSpawned = on.triggerActivated = undefined;
-    }
-    set rotation(value) {
-        this._rotation = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.rotation = value;
-            node = next;
-        }
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.x = value;
-            node = next;
-        }
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.y = value;
-            node = next;
-        }
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    get on() {
-        return this.__on;
-    }
-    // *********************************************************************************************
-    // * Private																		           *                              		   
-    // *********************************************************************************************
-    setNextEffect() {
-        if (this.exhausted) return;
-        const def = this._nextEffectSettings = this._list[this._index++];
-        this._effectStartTime = this._startTime + def.delay * 1000;
-    }
-    // *********************************************************************************************
-    // * Internal																		           *                              		   
-    // *********************************************************************************************
-    __applySettings(value) {
-        this.settings = value;
-        this.name = value.name;
-        this._list = value.effects.slice();
-        this.__recycled = false;
-    }
-}
-
-},{"./BaseEffect":"eOx4a","./util/LinkedList":"f4H9S","./ParticleEmitter":"bsSfk","./util/Rnd":"jeI0f","./util/FXSignal":"8rghA","./EffectSequenceComponentType":"2uSiF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2uSiF":[function(require,module,exports) {
+},{"./LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ftCiq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>EffectSequenceComponentType);
@@ -46514,39 +46464,43 @@ var EffectSequenceComponentType;
     EffectSequenceComponentType[EffectSequenceComponentType["Trigger"] = 3] = "Trigger";
 })(EffectSequenceComponentType || (EffectSequenceComponentType = {}));
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i8bmq":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iD0EN":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Sprite", ()=>Sprite);
+parcelHelpers.export(exports, "MovieClip", ()=>MovieClip);
 var _pixiJs = require("pixi.js");
-class Sprite extends _pixiJs.Sprite {
-    constructor(componentId, texture, anchorX, anchorY){
-        super(_pixiJs.Texture.from(texture));
+class MovieClip extends _pixiJs.AnimatedSprite {
+    constructor(componentId, textures, anchorX, anchorY){
+        let t = [];
+        let l = textures.length;
+        for(let i = 0; i < l; i++)t.push(_pixiJs.Texture.from(textures[i]));
+        super(t);
         this.componentId = componentId;
-        this.anchor.set(anchorX || 0.5, anchorY || 0.5);
-        this.__sequenceEndTime = null;
+        this.anchor.set(0.5, 0.5);
+        this.loop = false;
+        this.__sequenceEndTime = 0;
     }
     // *********************************************************************************************
-    // * Public										                                        											   *
+    // * Public																		                                        			   *
     // *********************************************************************************************
     recycle() {
-        this.tint = 0xffffff;
         this.alpha = 1;
+        this.tint = 0xffffff;
         this.rotation = 0;
         this.scale.set(1);
         if (this.parent) this.parent.removeChild(this);
-        this.__fx.__recycleSprite(this.componentId, this);
+        this.gotoAndStop(0);
+        this.__fx.__recycleMovieClip(this.componentId, this);
     }
     dispose() {
-        this.__fx = null;
-        this.recycle();
-        // @ts-ignore
-        this.destroy(false);
+        if (this.parent) this.parent.removeChild(this);
+        this.gotoAndStop(0);
+        this.destroy();
     }
 }
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"abUpV":[function(require,module,exports) {
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b2W0V":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -46840,7 +46794,7 @@ class Particle extends (0, _linkedList.Node) {
     }
 }
 
-},{"./util/LinkedList":"f4H9S","./util/Color":"8iNHC","./util/Easing":"daN6K","./util/Rnd":"jeI0f","./util/FXSignal":"8rghA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8iNHC":[function(require,module,exports) {
+},{"./util/LinkedList":"55Vu6","./util/Color":"6c0ie","./util/Easing":"aHH3h","./util/Rnd":"a0poX","./util/FXSignal":"9TYhH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6c0ie":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Color", ()=>Color);
@@ -46875,7 +46829,7 @@ class Color {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"daN6K":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aHH3h":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Easing", ()=>Easing);
@@ -47034,43 +46988,7 @@ class Easing {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jCc9O":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieClip", ()=>MovieClip);
-var _pixiJs = require("pixi.js");
-class MovieClip extends _pixiJs.AnimatedSprite {
-    constructor(componentId, textures, anchorX, anchorY){
-        let t = [];
-        let l = textures.length;
-        for(let i = 0; i < l; i++)t.push(_pixiJs.Texture.from(textures[i]));
-        super(t);
-        this.componentId = componentId;
-        this.anchor.set(0.5, 0.5);
-        this.loop = false;
-        this.__sequenceEndTime = 0;
-    }
-    // *********************************************************************************************
-    // * Public																		                                        			   *
-    // *********************************************************************************************
-    recycle() {
-        this.alpha = 1;
-        this.tint = 0xffffff;
-        this.rotation = 0;
-        this.scale.set(1);
-        if (this.parent) this.parent.removeChild(this);
-        this.gotoAndStop(0);
-        this.__fx.__recycleMovieClip(this.componentId, this);
-    }
-    dispose() {
-        if (this.parent) this.parent.removeChild(this);
-        this.gotoAndStop(0);
-        this.destroy();
-    }
-}
-
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"64plf":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h9AGS":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Sanitizer", ()=>Sanitizer);
@@ -47245,16 +47163,222 @@ Sanitizer._presetStructure = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7BjYC":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7td6h":[function(require,module,exports) {
+/// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ComponentType", ()=>ComponentType);
-var ComponentType;
-(function(ComponentType) {
-    ComponentType[ComponentType["Sprite"] = 0] = "Sprite";
-    ComponentType[ComponentType["MovieClip"] = 1] = "MovieClip";
-})(ComponentType || (ComponentType = {}));
+parcelHelpers.export(exports, "Sprite", ()=>Sprite);
+var _pixiJs = require("pixi.js");
+class Sprite extends _pixiJs.Sprite {
+    constructor(componentId, texture, anchorX, anchorY){
+        super(_pixiJs.Texture.from(texture));
+        this.componentId = componentId;
+        this.anchor.set(anchorX || 0.5, anchorY || 0.5);
+        this.__sequenceEndTime = null;
+    }
+    // *********************************************************************************************
+    // * Public										                                        											   *
+    // *********************************************************************************************
+    recycle() {
+        this.tint = 0xffffff;
+        this.alpha = 1;
+        this.rotation = 0;
+        this.scale.set(1);
+        if (this.parent) this.parent.removeChild(this);
+        this.__fx.__recycleSprite(this.componentId, this);
+    }
+    dispose() {
+        this.__fx = null;
+        this.recycle();
+        // @ts-ignore
+        this.destroy(false);
+    }
+}
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["4HHPY"], null, "parcelRequire2319")
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aGdLB":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore);
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _rnd = require("../util/Rnd");
+class BoxEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_BOX);
+    }
+    // *********************************************************************************************
+    // * Public																					   *
+    // *********************************************************************************************
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        const w2 = settings.width * 0.5 * this.__scaleMod;
+        const h2 = settings.height * 0.5 * this.__scaleMod;
+        let angle = emitter.rotation;
+        const x = (0, _rnd.Rnd).float(-w2, w2);
+        const y = (0, _rnd.Rnd).float(-h2, h2);
+        if (angle != 0) {
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + x * Math.cos(angle) - y * Math.sin(angle);
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + x * Math.sin(angle) + y * Math.cos(angle);
+        } else {
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + x;
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + y;
+        }
+        if (settings.radial) {
+            angle += Math.atan2(y, x);
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+        }
+        particle.component.rotation = angle;
+        this._t += this._posInterpolationStep;
+    }
+}
 
-//# sourceMappingURL=loadbundle1.51280c6d.js.map
+},{"./BaseEmitterCore":"2BsJ6","../util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2BsJ6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore);
+class BaseEmitterCore {
+    constructor(type){
+        this.type = type;
+        this._dx = 0;
+        this._dy = 0;
+        this._rotation = 0;
+    }
+    // *********************************************************************************************
+    // * Public			                                        								   *
+    // *********************************************************************************************
+    init(emitter) {
+        this.emitter = emitter;
+        this._settings = emitter.settings.core.params;
+        this.x = this.__x = emitter.x;
+        this.y = this.__y = emitter.y;
+        this.rotation = emitter.rotation;
+    }
+    emit(particle) {}
+    prepare(spawnCount) {
+        this._posInterpolationStep = 1 / spawnCount;
+        this._t = this._posInterpolationStep * 0.5;
+    }
+    step() {
+        this.__x = this.x;
+        this.__y = this.y;
+    }
+    recycle() {
+        this.emitter = null;
+        this._settings = null;
+    }
+    dispose() {
+        this.recycle();
+        this.emitter = null;
+        this._settings = null;
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    set rotation(value) {
+        this._rotation = value;
+        this._dx = Math.cos(value);
+        this._dy = Math.sin(value);
+    }
+}
+BaseEmitterCore.__TYPE_BOX = "box";
+BaseEmitterCore.__TYPE_CIRCLE = "circle";
+BaseEmitterCore.__TYPE_RING = "ring";
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"VlyZK":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore);
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _rnd = require("../util/Rnd");
+class CircleEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_CIRCLE);
+    }
+    // *********************************************************************************************
+    // * Public																	                   *
+    // *********************************************************************************************
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        let angle;
+        if (!settings.angle) angle = (0, _rnd.Rnd).float(0, 6.28319) + emitter.rotation;
+        else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
+        if (settings.radius > 0) {
+            let r = (0, _rnd.Rnd).float(0, settings.radius) * this.__scaleMod;
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
+        } else {
+            particle.component.x = this.__x + this._t * (this.x - this.__x);
+            particle.component.y = this.__y + this._t * (this.y - this.__y);
+        }
+        if (settings.radial) {
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+            particle.component.rotation = angle;
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+            particle.component.rotation = emitter.rotation;
+        }
+        this._t += this._posInterpolationStep;
+    }
+}
+
+},{"./BaseEmitterCore":"2BsJ6","../util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d7oDU":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore);
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _rnd = require("../util/Rnd");
+class RingEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _baseEmitterCore.BaseEmitterCore).__TYPE_RING);
+    }
+    // *********************************************************************************************
+    // * Public																		               *
+    // *********************************************************************************************
+    prepare(spawnCount) {
+        super.prepare(spawnCount);
+        const angle = this._settings.angle;
+        if (2 * Math.PI - angle < 0.1) {
+            this._uniformStep = angle / spawnCount;
+            this._angle = angle;
+        } else {
+            this._uniformStep = angle / (spawnCount - 1);
+            this._angle = -angle * 0.5;
+        }
+    }
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        let angle;
+        if (settings.uniform) {
+            angle = this._angle + emitter.rotation;
+            this._angle += this._uniformStep;
+        } else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
+        const r = settings.radius * this.__scaleMod;
+        particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
+        particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
+        if (settings.radial) {
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+            particle.component.rotation = angle;
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+            particle.component.rotation = emitter.rotation;
+        }
+        this._t += this._posInterpolationStep;
+    }
+}
+
+},{"./BaseEmitterCore":"2BsJ6","../util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["9s3ig"], null, "parcelRequire2319")
+
+//# sourceMappingURL=loadbundle1.acae6b27.js.map

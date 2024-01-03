@@ -585,7 +585,7 @@ const container = new _pixiJs.Container();
 const debug = new _pixiJs.Graphics();
 app.stage.addChild(container);
 app.stage.addChild(debug);
-app.stage.addChild(new _pixiJs.Text(_pixiJs.VERSION, {
+app.stage.addChild(new _pixiJs.Text(`PixiJS ${_pixiJs.VERSION}`, {
     fill: 0xffffff
 }));
 async function start() {
@@ -638,6 +638,6 @@ function drawDot(x, y, size, color) {
 }
 start();
 
-},{"pixi.js":"1arn0","../../../../../../revolt-fx/lib":"8xDeH"}]},["66Kxv","dzZf5"], "dzZf5", "parcelRequire2319")
+},{"pixi.js":"1arn0","../../../../../../revolt-fx/lib":"kRSLf"}]},["66Kxv","dzZf5"], "dzZf5", "parcelRequire2319")
 
 //# sourceMappingURL=events-particleemitter.af772c5b.js.map

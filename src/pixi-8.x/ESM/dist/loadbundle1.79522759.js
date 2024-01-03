@@ -576,7 +576,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"HFJZ5":[function(require,module,exports) {
 var _pixiJs = require("pixi.js");
-var _lib = require("../../../../../../revolt-fx/lib");
+var _revoltFx = require("revolt-fx");
 async function start() {
     const app = new _pixiJs.Application();
     await app.init({
@@ -584,13 +584,13 @@ async function start() {
     });
     document.body.appendChild(app.canvas);
     app.stage.addChild(new _pixiJs.Text({
-        text: _pixiJs.VERSION,
+        text: `PixiJS ${_pixiJs.VERSION}`,
         style: {
             fill: 0xffffff
         }
     }));
     // create an instance
-    const fx = new (0, _lib.FX)();
+    const fx = new (0, _revoltFx.FX)();
     _pixiJs.Assets.add({
         alias: "fx_settings",
         src: "assets/default-bundle.json"
@@ -626,6 +626,6 @@ async function start() {
 }
 start();
 
-},{"pixi.js":"1arn0","../../../../../../revolt-fx/lib":"8xDeH"}]},["aw4qn","HFJZ5"], "HFJZ5", "parcelRequire2319")
+},{"pixi.js":"1arn0","revolt-fx":"kRSLf"}]},["aw4qn","HFJZ5"], "HFJZ5", "parcelRequire2319")
 
 //# sourceMappingURL=loadbundle1.79522759.js.map

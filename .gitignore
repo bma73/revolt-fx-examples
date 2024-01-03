@@ -90,3 +90,5 @@ typings/
 .parcel-cache
 
 package-lock.json
+
+.vscode

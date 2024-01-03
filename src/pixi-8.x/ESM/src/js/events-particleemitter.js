@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { FX, EffectSequenceComponentType } from '../../../../../../revolt-fx/lib';
+import { FX } from '../../../../../../revolt-fx/lib';
 
 
 async function start() {
@@ -7,7 +7,7 @@ async function start() {
     await app.init({ resizeTo: window });
     document.body.appendChild(app.canvas);
 
-    app.stage.addChild(new PIXI.Text({ text: PIXI.VERSION, style: { fill: 0xffffff } }));
+    app.stage.addChild(new PIXI.Text({ text: `PixiJS ${PIXI.VERSION}`, style: { fill: 0xffffff } }));
 
     const container = new PIXI.Container();
     const debug = new PIXI.Graphics();

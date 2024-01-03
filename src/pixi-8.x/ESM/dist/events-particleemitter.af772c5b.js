@@ -584,7 +584,7 @@ async function start() {
     });
     document.body.appendChild(app.canvas);
     app.stage.addChild(new _pixiJs.Text({
-        text: _pixiJs.VERSION,
+        text: `PixiJS ${_pixiJs.VERSION}`,
         style: {
             fill: 0xffffff
         }
@@ -643,6 +643,6 @@ async function start() {
 }
 start();
 
-},{"pixi.js":"1arn0","../../../../../../revolt-fx/lib":"8xDeH"}]},["66Kxv","dzZf5"], "dzZf5", "parcelRequire2319")
+},{"pixi.js":"1arn0","../../../../../../revolt-fx/lib":"kRSLf"}]},["66Kxv","dzZf5"], "dzZf5", "parcelRequire2319")
 
 //# sourceMappingURL=events-particleemitter.af772c5b.js.map

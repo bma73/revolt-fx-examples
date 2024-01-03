@@ -581,7 +581,7 @@ const app = new _pixiJs.Application({
     resizeTo: window
 });
 document.body.appendChild(app.view);
-app.stage.addChild(new _pixiJs.Text(_pixiJs.VERSION, {
+app.stage.addChild(new _pixiJs.Text(`PixiJS ${_pixiJs.VERSION}`, {
     fill: 0xffffff
 }));
 async function start() {
@@ -610,6 +610,6 @@ async function start() {
 }
 start();
 
-},{"pixi.js":"1arn0","../../../../../../revolt-fx":"8xDeH"}]},["6n1rT","lVXeF"], "lVXeF", "parcelRequire2319")
+},{"pixi.js":"1arn0","../../../../../../revolt-fx":"kRSLf"}]},["6n1rT","lVXeF"], "lVXeF", "parcelRequire2319")
 
 //# sourceMappingURL=loadbundle2.b943708f.js.map

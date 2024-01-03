@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>RevoltFX // Load Bundle</title>
     <script src="https://unpkg.com/pixi.js@7.x/dist/pixi.min.js"></script>
-    <!-- <script src="https://unpkg.com/revolt-fx/dist/revoltfx.min.js"></script> -->
-    <script src="./revoltfx.min.js"></script>
+    <script src="https://unpkg.com/revolt-fx/dist/revoltfx.min.js"></script>
     <link href="styles.css" rel=stylesheet>
 </head>
 
@@ -26,6 +25,9 @@
         PIXI.Assets.add({ alias: 'example_spritesheet', src: 'assets/rfx-examples.json' });
 
         PIXI.Assets.load(['fx_settings', 'fx_spritesheet', 'example_spritesheet']).then(function (data) {
+
+            console.log(PIXI);
+
             //Init the bundle
             fx.initBundle(data.fx_settings);
 

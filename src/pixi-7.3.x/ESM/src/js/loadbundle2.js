@@ -4,7 +4,7 @@ import { FX } from '../../../../../../revolt-fx';
 const app = new PIXI.Application({ resizeTo: window });
 document.body.appendChild(app.view);
 
-app.stage.addChild(new PIXI.Text(PIXI.VERSION, { fill: 0xffffff }));
+app.stage.addChild(new PIXI.Text(`PixiJS ${PIXI.VERSION}`, { fill: 0xffffff }));
 
 async function start() {
 
