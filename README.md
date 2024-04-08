@@ -2,7 +2,7 @@
 
 # RevoltFX Examples
 
-Growling list of examples for the [RevoltFX](https://github.com/bma73/revolt-fx) particle and effect system.
+Growing list of examples for the [RevoltFX](https://github.com/bma73/revolt-fx) particle and effect system.
 
 
 To easily create your own effects use the extensive RevoltFX online editor  
