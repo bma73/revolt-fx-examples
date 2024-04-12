@@ -15,6 +15,9 @@ import Intro from "./intro";
 import Mines from "./mines";
 import PlasmaGrenade from "./plasma-grenade";
 import PlasmaVulcan from "./plasma-vulcan";
+import Spaceships from "./spaceships";
+import StoneSplash from "./stone-splash";
+import Storm from "./storm";
 
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI(PIXI);
@@ -25,7 +28,7 @@ class Main {
     floorY = 590;
 
     app;
-    index = 9;
+    index = 1;
     root;
     infoText;
     nextButton;
@@ -51,12 +54,15 @@ class Main {
             new FireArc(),
             new FairyDust(),
             new Aliens(),
+            new Mines(),
             new Fireworks(),
             new Flamethrower(),
-            new Mines(),
-            new PlasmaGrenade(),
-            new PlasmaVulcan(),
             new EnergyShield(),
+            new Storm(),
+            new PlasmaGrenade(),
+            new Spaceships(),
+            new PlasmaVulcan(),
+            new StoneSplash(),
         ];
         this.start();
     }

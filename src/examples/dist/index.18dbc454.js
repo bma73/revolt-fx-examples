@@ -609,6 +609,12 @@ var _plasmaGrenade = require("./plasma-grenade");
 var _plasmaGrenadeDefault = parcelHelpers.interopDefault(_plasmaGrenade);
 var _plasmaVulcan = require("./plasma-vulcan");
 var _plasmaVulcanDefault = parcelHelpers.interopDefault(_plasmaVulcan);
+var _spaceships = require("./spaceships");
+var _spaceshipsDefault = parcelHelpers.interopDefault(_spaceships);
+var _stoneSplash = require("./stone-splash");
+var _stoneSplashDefault = parcelHelpers.interopDefault(_stoneSplash);
+var _storm = require("./storm");
+var _stormDefault = parcelHelpers.interopDefault(_storm);
 (0, _gsap.gsap).registerPlugin((0, _pixiPlugin.PixiPlugin));
 (0, _pixiPlugin.PixiPlugin).registerPIXI(_pixiJs);
 class Main {
@@ -616,7 +622,7 @@ class Main {
     height = 640;
     floorY = 590;
     app;
-    index = 9;
+    index = 1;
     root;
     infoText;
     nextButton;
@@ -639,12 +645,15 @@ class Main {
             new (0, _fireArcDefault.default)(),
             new (0, _fairyDustDefault.default)(),
             new (0, _aliensDefault.default)(),
+            new (0, _minesDefault.default)(),
             new (0, _fireworksDefault.default)(),
             new (0, _flamethrowerDefault.default)(),
-            new (0, _minesDefault.default)(),
+            new (0, _energyShieldDefault.default)(),
+            new (0, _stormDefault.default)(),
             new (0, _plasmaGrenadeDefault.default)(),
+            new (0, _spaceshipsDefault.default)(),
             new (0, _plasmaVulcanDefault.default)(),
-            new (0, _energyShieldDefault.default)()
+            new (0, _stoneSplashDefault.default)()
         ];
         this.start();
     }
@@ -822,7 +831,7 @@ class Main {
 }
 new Main();
 
-},{"gsap":"fPSuC","gsap/PixiPlugin":"gMjqk","pixi.js":"1arn0","../../../../../revolt-fx":"kRSLf","./aliens":"43uPj","./fairy-dust":"hwcFB","./fire-arc":"7B8vR","./fireworks":"8mSvE","./flamethrower":"hOQjl","./intro":"4V73i","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./mines":"02JJB","./plasma-grenade":"fgfhP","./plasma-vulcan":"4hDyi","./energy-shield":"k9Fih"}],"fPSuC":[function(require,module,exports) {
+},{"gsap":"fPSuC","gsap/PixiPlugin":"gMjqk","pixi.js":"1arn0","../../../../../revolt-fx":"fXezP","./aliens":"43uPj","./energy-shield":"k9Fih","./fairy-dust":"hwcFB","./fire-arc":"7B8vR","./fireworks":"8mSvE","./flamethrower":"hOQjl","./intro":"4V73i","./mines":"02JJB","./plasma-grenade":"fgfhP","./plasma-vulcan":"4hDyi","./spaceships":"fOsGt","./stone-splash":"cHkau","./storm":"duOWz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -6820,6 +6829,7 @@ class Sprite extends (0, _containerMjs.Container) {
             }
         });
         if (anchor) this.anchor = anchor;
+        else if (texture.defaultAnchor) this.anchor = texture.defaultAnchor;
         this.texture = texture;
         this.allowChildren = false;
         this.roundPixels = roundPixels ?? false;
@@ -8769,6 +8779,7 @@ const _TextureSource = class _TextureSource extends (0, _eventemitter3Default.de
     /** Destroys this texture source */ destroy() {
         this.destroyed = true;
         this.emit("destroy", this);
+        this.emit("change", this);
         if (this._style) {
             this._style.destroy();
             this._style = null;
@@ -8955,6 +8966,10 @@ const _TextureStyle = class _TextureStyle extends (0, _eventemitter3Default.defa
      * @internal
      * @ignore
      */ this._maxAnisotropy = 1;
+        /**
+     * Has the style been destroyed?
+     * @readonly
+     */ this.destroyed = false;
         options = {
             ..._TextureStyle.defaultOptions,
             ...options
@@ -9016,7 +9031,9 @@ const _TextureStyle = class _TextureStyle extends (0, _eventemitter3Default.defa
         return this._resourceId;
     }
     /** Destroys the style */ destroy() {
+        this.destroyed = true;
         this.emit("destroy", this);
+        this.emit("change", this);
         this.removeAllListeners();
     }
 };
@@ -12230,7 +12247,6 @@ const BrowserAdapter = {
     },
     getCanvasRenderingContext2D: ()=>CanvasRenderingContext2D,
     getWebGLRenderingContext: ()=>WebGLRenderingContext,
-    getWebGL2RenderingContext: ()=>WebGL2RenderingContext,
     getNavigator: ()=>navigator,
     getBaseUrl: ()=>document.baseURI ?? window.location.href,
     getFontFaceSet: ()=>document.fonts,
@@ -12319,7 +12335,7 @@ const _VideoSource = class _VideoSource extends (0, _textureSourceMjs.TextureSou
     /** Callback to update the video frame and potentially request the next frame update. */ _videoFrameRequestCallback() {
         this.updateFrame();
         if (this.destroyed) this._videoFrameRequestCallbackHandle = null;
-        else this._videoFrameRequestCallbackHandle = this.source.requestVideoFrameCallback(this._videoFrameRequestCallback);
+        else this._videoFrameRequestCallbackHandle = this.resource.requestVideoFrameCallback(this._videoFrameRequestCallback);
     }
     /**
    * Checks if the resource has valid dimensions.
@@ -12479,16 +12495,16 @@ const _VideoSource = class _VideoSource extends (0, _textureSourceMjs.TextureSou
    * - If `_autoUpdate` is disabled or the video isn't playing, any active update mechanisms are halted.
    */ _configureAutoUpdate() {
         if (this._autoUpdate && this._isSourcePlaying()) {
-            if (!this._updateFPS && this.source.requestVideoFrameCallback) {
+            if (!this._updateFPS && this.resource.requestVideoFrameCallback) {
                 if (this._isConnectedToTicker) {
                     (0, _tickerMjs.Ticker).shared.remove(this.updateFrame, this);
                     this._isConnectedToTicker = false;
                     this._msToNextUpdate = 0;
                 }
-                if (this._videoFrameRequestCallbackHandle === null) this._videoFrameRequestCallbackHandle = this.source.requestVideoFrameCallback(this._videoFrameRequestCallback);
+                if (this._videoFrameRequestCallbackHandle === null) this._videoFrameRequestCallbackHandle = this.resource.requestVideoFrameCallback(this._videoFrameRequestCallback);
             } else {
                 if (this._videoFrameRequestCallbackHandle !== null) {
-                    this.source.cancelVideoFrameCallback(this._videoFrameRequestCallbackHandle);
+                    this.resource.cancelVideoFrameCallback(this._videoFrameRequestCallbackHandle);
                     this._videoFrameRequestCallbackHandle = null;
                 }
                 if (!this._isConnectedToTicker) {
@@ -12499,7 +12515,7 @@ const _VideoSource = class _VideoSource extends (0, _textureSourceMjs.TextureSou
             }
         } else {
             if (this._videoFrameRequestCallbackHandle !== null) {
-                this.source.cancelVideoFrameCallback(this._videoFrameRequestCallbackHandle);
+                this.resource.cancelVideoFrameCallback(this._videoFrameRequestCallbackHandle);
                 this._videoFrameRequestCallbackHandle = null;
             }
             if (this._isConnectedToTicker) {
@@ -15791,6 +15807,8 @@ const _UniformGroup = class _UniformGroup {
      * @internal
      * @ignore
      */ this._dirtyId = 0;
+        // implementing the interface - UniformGroup are not destroyed
+        this.destroyed = false;
         options = {
             ..._UniformGroup.defaultOptions,
             ...options
@@ -16190,9 +16208,12 @@ class BindGroup {
         }
         this.resources = null;
     }
-    onResourceChange() {
+    onResourceChange(resource) {
         this._dirty = true;
-        this._updateKey();
+        if (resource.destroyed) {
+            const resources = this.resources;
+            for(const i in resources)if (resources[i] === resource) resources[i] = null;
+        } else this._updateKey();
     }
 }
 
@@ -17808,8 +17829,8 @@ var _isWebGPUSupportedMjs = require("../../utils/browser/isWebGPUSupported.mjs")
 var _abstractRendererMjs = require("./shared/system/AbstractRenderer.mjs");
 "use strict";
 const renderPriority = [
-    "webgpu",
     "webgl",
+    "webgpu",
     "canvas"
 ];
 async function autoDetectRenderer(options) {
@@ -22223,7 +22244,8 @@ class Polygon {
         const halfStrokeWidth = strokeWidth / 2;
         const halfStrokeWidthSqrd = halfStrokeWidth * halfStrokeWidth;
         const { points } = this;
-        for(let i = 0; i < points.length; i += 2){
+        const iterationLength = points.length - (this.closePath ? 0 : 2);
+        for(let i = 0; i < iterationLength; i += 2){
             const x1 = points[i];
             const y1 = points[i + 1];
             const x2 = points[(i + 2) % points.length];
@@ -22853,6 +22875,10 @@ class Buffer extends (0, _eventemitter3Default.default) {
      * if you are constantly setting data that is changing size often.
      * @default true
      */ this.shrinkToFit = true;
+        /**
+     * Has the buffer been destroyed?
+     * @readonly
+     */ this.destroyed = false;
         if (data instanceof Array) data = new Float32Array(data);
         this._data = data;
         size = size ?? data?.byteLength;
@@ -22916,7 +22942,9 @@ class Buffer extends (0, _eventemitter3Default.default) {
         this.emit("update", this);
     }
     /** Destroys the buffer */ destroy() {
+        this.destroyed = true;
         this.emit("destroy", this);
+        this.emit("change", this);
         this._data = null;
         this.descriptor = null;
         this.removeAllListeners();
@@ -27415,7 +27443,6 @@ const WebWorkerAdapter = {
     createCanvas: (width, height)=>new OffscreenCanvas(width ?? 0, height ?? 0),
     getCanvasRenderingContext2D: ()=>OffscreenCanvasRenderingContext2D,
     getWebGLRenderingContext: ()=>WebGLRenderingContext,
-    getWebGL2RenderingContext: ()=>WebGL2RenderingContext,
     getNavigator: ()=>navigator,
     getBaseUrl: ()=>globalThis.location.href,
     getFontFaceSet: ()=>globalThis.fonts,
@@ -37765,7 +37792,7 @@ class Transform {
     set rotation(value) {
         if (this._rotation !== value) {
             this._rotation = value;
-            this.updateSkew();
+            this._onUpdate(this.skew);
         }
     }
 }
@@ -41112,7 +41139,7 @@ const roundPixelsBit = {
         header: /* wgsl */ `
             fn roundPixels(position: vec2<f32>, targetSize: vec2<f32>) -> vec2<f32> 
             {
-                return (floor((position * 0.5 + 0.5) * targetSize) / targetSize) * 2.0 - 1.0;
+                return (floor(((position * 0.5 + 0.5) * targetSize) + 0.5) / targetSize) * 2.0 - 1.0;
             }
         `
     }
@@ -41123,7 +41150,7 @@ const roundPixelsBitGl = {
         header: /* glsl */ `   
             vec2 roundPixels(vec2 position, vec2 targetSize)
             {       
-                return (floor((position * 0.5 + 0.5) * targetSize) / targetSize) * 2.0 - 1.0;
+                return (floor(((position * 0.5 + 0.5) * targetSize) + 0.5) / targetSize) * 2.0 - 1.0;
             }
         `
     }
@@ -42107,7 +42134,7 @@ const _GlContextSystem = class _GlContextSystem {
    * @param {WebGLRenderingContext} gl - WebGL context
    */ initFromContext(gl) {
         this.gl = gl;
-        this.webGLVersion = gl instanceof (0, _adapterMjs.DOMAdapter).get().getWebGL2RenderingContext() ? 2 : 1;
+        this.webGLVersion = gl instanceof (0, _adapterMjs.DOMAdapter).get().getWebGLRenderingContext() ? 1 : 2;
         this.getExtensions();
         this.validateContext(gl);
         this._renderer.runners.contextChange.emit(gl);
@@ -42163,10 +42190,14 @@ const _GlContextSystem = class _GlContextSystem {
             vertexAttribDivisorANGLE: gl.getExtension("ANGLE_instanced_arrays"),
             srgb: gl.getExtension("EXT_sRGB")
         };
-        else this.extensions = {
-            ...common,
-            colorBufferFloat: gl.getExtension("EXT_color_buffer_float")
-        };
+        else {
+            this.extensions = {
+                ...common,
+                colorBufferFloat: gl.getExtension("EXT_color_buffer_float")
+            };
+            const provokeExt = gl.getExtension("WEBGL_provoking_vertex");
+            if (provokeExt) provokeExt.provokingVertexWEBGL(provokeExt.FIRST_VERTEX_CONVENTION_WEBGL);
+        }
     }
     /**
    * Handles a lost webgl context
@@ -42438,7 +42469,8 @@ class GlGeometrySystem {
             const attribute = attributes[j];
             const buffer = attribute.buffer;
             const glBuffer = bufferSystem.getGlBuffer(buffer);
-            if (program._attributeData[j]) {
+            const programAttrib = program._attributeData[j];
+            if (programAttrib) {
                 if (lastBuffer !== glBuffer) {
                     bufferSystem.bind(buffer);
                     lastBuffer = glBuffer;
@@ -42446,7 +42478,9 @@ class GlGeometrySystem {
                 const location = attribute.location;
                 gl.enableVertexAttribArray(location);
                 const attributeInfo = (0, _getAttributeInfoFromFormatMjs.getAttributeInfoFromFormat)(attribute.format);
-                gl.vertexAttribPointer(location, attributeInfo.size, (0, _getGlTypeFromFormatMjs.getGlTypeFromFormat)(attribute.format), attributeInfo.normalised, attribute.stride, attribute.offset);
+                const type = (0, _getGlTypeFromFormatMjs.getGlTypeFromFormat)(attribute.format);
+                if (programAttrib.format?.substring(1, 4) === "int") gl.vertexAttribIPointer(location, attributeInfo.size, type, attribute.stride, attribute.offset);
+                else gl.vertexAttribPointer(location, attributeInfo.size, type, attributeInfo.normalised, attribute.stride, attribute.offset);
                 if (attribute.instance) {
                     if (this.hasInstance) gl.vertexAttribDivisor(location, 1);
                     else throw new Error("geometry error, GPU Instancing is not supported on this device");
@@ -44122,6 +44156,10 @@ class BufferResource extends (0, _eventemitter3Default.default) {
      * @internal
      * @ignore
      */ this._bufferResource = true;
+        /**
+     * Has the Buffer resource been destroyed?
+     * @readonly
+     */ this.destroyed = false;
         this.buffer = buffer;
         this.offset = offset | 0;
         this.size = size;
@@ -44136,7 +44174,9 @@ class BufferResource extends (0, _eventemitter3Default.default) {
    * if you want to destroy it as well, or code will explode
    * @param destroyBuffer - Should the underlying buffer be destroyed as well?
    */ destroy(destroyBuffer = false) {
+        this.destroyed = true;
         if (destroyBuffer) this.buffer.destroy();
+        this.emit("change", this);
         this.buffer = null;
     }
 }
@@ -45688,7 +45728,7 @@ var _adapterMjs = require("../../../../../environment/adapter.mjs");
 function mapFormatToGlInternalFormat(gl, extensions) {
     let srgb = {};
     let bgra8unorm = gl.RGBA;
-    if (gl instanceof (0, _adapterMjs.DOMAdapter).get().getWebGL2RenderingContext()) {
+    if (!(gl instanceof (0, _adapterMjs.DOMAdapter).get().getWebGLRenderingContext())) {
         srgb = {
             "rgba8unorm-srgb": gl.SRGB8_ALPHA8,
             "bgra8unorm-srgb": gl.SRGB8_ALPHA8
@@ -47201,7 +47241,7 @@ parcelHelpers.export(exports, "sayHello", ()=>sayHello);
 var _adapterMjs = require("../environment/adapter.mjs");
 "use strict";
 let saidHello = false;
-const VERSION = "8.0.5";
+const VERSION = "8.1.0";
 function sayHello(type) {
     if (saidHello) return;
     if ((0, _adapterMjs.DOMAdapter).get().getNavigator().userAgent.toLowerCase().indexOf("chrome") > -1) {
@@ -50560,7 +50600,7 @@ const _MeshRope = class _MeshRope extends (0, _meshMjs.Mesh) {
    * Note: The wrap mode of the texture is set to REPEAT if `textureScale` is positive.
    * @param options
    * @param options.texture - The texture to use on the rope.
-   * @param options.points - An array of {@link PIXI.Point} objects to construct this rope.
+   * @param options.points - An array of {@link math.Point} objects to construct this rope.
    * @param {number} options.textureScale - Optional. Positive values scale rope texture
    * keeping its aspect ratio. You can reduce alpha channel artifacts by providing a larger texture
    * and downsampling here. If set to zero, texture will be stretched instead.
@@ -53410,47 +53450,1093 @@ function logRenderGroupScene(renderGroup, depth = 0, data = {
 },{"../../scene/sprite/Sprite.mjs":"1d55h","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7gCTg":[function(require,module,exports) {
 "use strict";
 
-},{}],"kRSLf":[function(require,module,exports) {
+},{}],"fXezP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "FX", ()=>(0, _fx.FX));
 parcelHelpers.export(exports, "BaseEffect", ()=>(0, _baseEffect.BaseEffect));
-parcelHelpers.export(exports, "EffectSequence", ()=>(0, _effectSequence.EffectSequence));
-parcelHelpers.export(exports, "MovieClip", ()=>(0, _movieClip.MovieClip));
-parcelHelpers.export(exports, "Particle", ()=>(0, _particle.Particle));
-parcelHelpers.export(exports, "ParticleEmitter", ()=>(0, _particleEmitter.ParticleEmitter));
-parcelHelpers.export(exports, "Sprite", ()=>(0, _sprite.Sprite));
+parcelHelpers.export(exports, "ComponentType", ()=>(0, _componentType.ComponentType));
 parcelHelpers.export(exports, "BaseEmitterCore", ()=>(0, _baseEmitterCore.BaseEmitterCore));
 parcelHelpers.export(exports, "BoxEmitterCore", ()=>(0, _boxEmitterCore.BoxEmitterCore));
 parcelHelpers.export(exports, "CircleEmitterCore", ()=>(0, _circleEmitterCore.CircleEmitterCore));
 parcelHelpers.export(exports, "RingEmitterCore", ()=>(0, _ringEmitterCore.RingEmitterCore));
+parcelHelpers.export(exports, "EffectSequence", ()=>(0, _effectSequence.EffectSequence));
+parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>(0, _effectSequenceComponentType.EffectSequenceComponentType));
+parcelHelpers.export(exports, "FX", ()=>(0, _fx.FX));
+parcelHelpers.export(exports, "MovieClip", ()=>(0, _movieClip.MovieClip));
+parcelHelpers.export(exports, "Particle", ()=>(0, _particle.Particle));
+parcelHelpers.export(exports, "ParticleEmitter", ()=>(0, _particleEmitter.ParticleEmitter));
+parcelHelpers.export(exports, "Sprite", ()=>(0, _sprite.Sprite));
 parcelHelpers.export(exports, "Color", ()=>(0, _color.Color));
 parcelHelpers.export(exports, "Easing", ()=>(0, _easing.Easing));
+parcelHelpers.export(exports, "FXSignal", ()=>(0, _fxsignal.FXSignal));
 parcelHelpers.export(exports, "LinkedList", ()=>(0, _linkedList.LinkedList));
 parcelHelpers.export(exports, "Rnd", ()=>(0, _rnd.Rnd));
-parcelHelpers.export(exports, "FXSignal", ()=>(0, _fxsignal.FXSignal));
-parcelHelpers.export(exports, "ComponentType", ()=>(0, _componentType.ComponentType));
-parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>(0, _effectSequenceComponentType.EffectSequenceComponentType));
-var _fx = require("./FX");
 var _baseEffect = require("./BaseEffect");
-var _effectSequence = require("./EffectSequence");
-var _movieClip = require("./MovieClip");
-var _particle = require("./Particle");
-var _particleEmitter = require("./ParticleEmitter");
-var _sprite = require("./Sprite");
+var _componentType = require("./ComponentType");
 var _baseEmitterCore = require("./core/BaseEmitterCore");
 var _boxEmitterCore = require("./core/BoxEmitterCore");
 var _circleEmitterCore = require("./core/CircleEmitterCore");
 var _ringEmitterCore = require("./core/RingEmitterCore");
+var _effectSequence = require("./EffectSequence");
+var _effectSequenceComponentType = require("./EffectSequenceComponentType");
+var _fx = require("./FX");
+var _movieClip = require("./MovieClip");
+var _particle = require("./Particle");
+var _particleEmitter = require("./ParticleEmitter");
+var _sprite = require("./Sprite");
 var _color = require("./util/Color");
 var _easing = require("./util/Easing");
+var _fxsignal = require("./util/FXSignal");
 var _linkedList = require("./util/LinkedList");
 var _rnd = require("./util/Rnd");
-var _fxsignal = require("./util/FXSignal");
-var _componentType = require("./ComponentType");
-var _effectSequenceComponentType = require("./EffectSequenceComponentType");
 
-},{"./FX":"1I3om","./BaseEffect":"6ccWH","./EffectSequence":"5udqW","./MovieClip":"iD0EN","./Particle":"b2W0V","./ParticleEmitter":"gb8J9","./Sprite":"7td6h","./core/BaseEmitterCore":"2BsJ6","./core/BoxEmitterCore":"aGdLB","./core/CircleEmitterCore":"VlyZK","./core/RingEmitterCore":"d7oDU","./util/Color":"6c0ie","./util/Easing":"aHH3h","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","./util/FXSignal":"9TYhH","./ComponentType":"7p3uS","./EffectSequenceComponentType":"ftCiq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1I3om":[function(require,module,exports) {
+},{"./BaseEffect":"8PaYr","./ComponentType":"aBsww","./core/BaseEmitterCore":"k1zpP","./core/BoxEmitterCore":"3MLoE","./core/CircleEmitterCore":"hMQ8M","./core/RingEmitterCore":"6HR0u","./EffectSequence":"5FgwV","./EffectSequenceComponentType":"4AclN","./FX":"gqAw0","./MovieClip":"4ia7M","./Particle":"izkSw","./ParticleEmitter":"eMwca","./Sprite":"hjtXT","./util/Color":"ggcVh","./util/Easing":"edOGW","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8PaYr":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect);
+var _pixiJs = require("pixi.js");
+var _linkedList = require("./util/LinkedList");
+class BaseEffect extends (0, _linkedList.Node) {
+    constructor(componentId){
+        super();
+        this.componentId = componentId;
+        this.exhausted = false;
+        this.completed = false;
+        this.name = "";
+        this.endTime = 0;
+        this._x = 0;
+        this._y = 0;
+        this._rotation = 0;
+        this._alpha = 0;
+        this._scale = new _pixiJs.Point();
+        this._time = 0;
+        this._active = false;
+        this.__recycled = true;
+    }
+    // *********************************************************************************************
+    // * Public																					                                           *
+    // *********************************************************************************************
+    update(dt) {}
+    recycle() {}
+    get active() {
+        return this._active;
+    }
+    get scale() {
+        return this._scale;
+    }
+    set scale(value) {
+        this._scale = value;
+    }
+    get alpha() {
+        return this._alpha;
+    }
+    set alpha(value) {
+        this._alpha = value;
+    }
+    set rotation(value) {
+        this._rotation = value;
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+    }
+    // *********************************************************************************************
+    // * internal										                                        										   *
+    // *********************************************************************************************
+    __applySettings(value) {}
+}
+
+},{"pixi.js":"1arn0","./util/LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"khbvy":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "LinkedList", ()=>LinkedList);
+parcelHelpers.export(exports, "Node", ()=>Node);
+class LinkedList {
+    constructor(){
+        this.__length = 0;
+    }
+    // *********************************************************************************************
+    // * Public																                       *
+    // *********************************************************************************************
+    get length() {
+        return this.__length;
+    }
+    add(node) {
+        if (this.first == null) this.first = this.last = node;
+        else {
+            node.prev = this.last;
+            this.last.next = node;
+            this.last = node;
+        }
+        node.list = this;
+        this.__length++;
+        return this;
+    }
+    remove(node) {
+        if (node.list == null) return;
+        if (this.first === this.last) this.first = this.last = null;
+        else if (this.__length > 0) {
+            if (node === this.last) {
+                node.prev.next = null;
+                this.last = node.prev;
+            } else if (node === this.first) {
+                node.next.prev = null;
+                this.first = node.next;
+            } else {
+                node.next.prev = node.prev;
+                node.prev.next = node.next;
+            }
+        }
+        node.next = node.prev = node.list = null;
+        this.__length--;
+        return this;
+    }
+    clear() {
+        if (!this.first) return;
+        let node = this.first;
+        while(node){
+            let next = node.next;
+            node.next = node.prev = node.list = null;
+            node = next;
+        }
+        this.first = this.last = null;
+    }
+    toArray() {
+        const ret = [];
+        if (!this.first) return ret;
+        let node = this.first;
+        while(node){
+            ret.push(node);
+            node = node.next;
+        }
+        return ret;
+    }
+}
+class Node {
+    constructor(data){
+        this.data = data;
+    }
+    update(dt) {}
+    dispose() {}
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aBsww":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ComponentType", ()=>ComponentType);
+var ComponentType;
+(function(ComponentType) {
+    ComponentType[ComponentType["Sprite"] = 0] = "Sprite";
+    ComponentType[ComponentType["MovieClip"] = 1] = "MovieClip";
+})(ComponentType || (ComponentType = {}));
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k1zpP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore);
+class BaseEmitterCore {
+    constructor(type){
+        this.type = type;
+        this._dx = 0;
+        this._dy = 0;
+        this._rotation = 0;
+    }
+    // *********************************************************************************************
+    // * Public			                                        								   *
+    // *********************************************************************************************
+    init(emitter) {
+        this.emitter = emitter;
+        this._settings = emitter.settings.core.params;
+        this.x = this.__x = emitter.x;
+        this.y = this.__y = emitter.y;
+        this.rotation = emitter.rotation;
+    }
+    emit(particle) {}
+    prepare(spawnCount) {
+        this._posInterpolationStep = 1 / spawnCount;
+        this._t = this._posInterpolationStep * 0.5;
+    }
+    step() {
+        this.__x = this.x;
+        this.__y = this.y;
+    }
+    recycle() {
+        this.emitter = null;
+        this._settings = null;
+    }
+    dispose() {
+        this.recycle();
+        this.emitter = null;
+        this._settings = null;
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    set rotation(value) {
+        this._rotation = value;
+        this._dx = Math.cos(value);
+        this._dy = Math.sin(value);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3MLoE":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore);
+var _rnd = require("../util/Rnd");
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _emitterType = require("./EmitterType");
+class BoxEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _emitterType.EmitterType).Box);
+    }
+    // *********************************************************************************************
+    // * Public																					   *
+    // *********************************************************************************************
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        const w2 = settings.width * 0.5 * this.__scaleMod;
+        const h2 = settings.height * 0.5 * this.__scaleMod;
+        let angle = emitter.rotation;
+        const x = (0, _rnd.Rnd).float(-w2, w2);
+        const y = (0, _rnd.Rnd).float(-h2, h2);
+        if (angle != 0) {
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + x * Math.cos(angle) - y * Math.sin(angle);
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + x * Math.sin(angle) + y * Math.cos(angle);
+        } else {
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + x;
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + y;
+        }
+        if (settings.radial) {
+            angle += Math.atan2(y, x);
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+        }
+        particle.component.rotation = angle;
+        this._t += this._posInterpolationStep;
+    }
+}
+
+},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"622Na":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Rnd", ()=>Rnd);
+class Rnd {
+    static float(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+    static bool(chance = 0.5) {
+        return Math.random() < chance;
+    }
+    static sign(chance = 0.5) {
+        return Math.random() < chance ? 1 : -1;
+    }
+    static bit(chance = 0.5) {
+        return Math.random() < chance ? 1 : 0;
+    }
+    static integer(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"KDr0o":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "EmitterType", ()=>EmitterType);
+var EmitterType;
+(function(EmitterType) {
+    EmitterType["Circle"] = "circle";
+    EmitterType["Box"] = "box";
+    EmitterType["Ring"] = "ring";
+})(EmitterType || (EmitterType = {}));
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hMQ8M":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore);
+var _rnd = require("../util/Rnd");
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _emitterType = require("./EmitterType");
+class CircleEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _emitterType.EmitterType).Circle);
+    }
+    // *********************************************************************************************
+    // * Public																	                   *
+    // *********************************************************************************************
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        let angle;
+        if (!settings.angle) angle = (0, _rnd.Rnd).float(0, 6.28319) + emitter.rotation;
+        else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
+        if (settings.radius > 0) {
+            let r = (0, _rnd.Rnd).float(0, settings.radius) * this.__scaleMod;
+            particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
+            particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
+        } else {
+            particle.component.x = this.__x + this._t * (this.x - this.__x);
+            particle.component.y = this.__y + this._t * (this.y - this.__y);
+        }
+        if (settings.radial) {
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+            particle.component.rotation = angle;
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+            particle.component.rotation = emitter.rotation;
+        }
+        this._t += this._posInterpolationStep;
+    }
+}
+
+},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6HR0u":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore);
+var _rnd = require("../util/Rnd");
+var _baseEmitterCore = require("./BaseEmitterCore");
+var _emitterType = require("./EmitterType");
+class RingEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
+    constructor(){
+        super((0, _emitterType.EmitterType).Ring);
+    }
+    // *********************************************************************************************
+    // * Public																		               *
+    // *********************************************************************************************
+    prepare(spawnCount) {
+        super.prepare(spawnCount);
+        const angle = this._settings.angle;
+        if (2 * Math.PI - angle < 0.1) {
+            this._uniformStep = angle / spawnCount;
+            this._angle = angle;
+        } else {
+            this._uniformStep = angle / (spawnCount - 1);
+            this._angle = -angle * 0.5;
+        }
+    }
+    emit(particle) {
+        const settings = this._settings;
+        const emitter = this.emitter;
+        let angle;
+        if (settings.uniform) {
+            angle = this._angle + emitter.rotation;
+            this._angle += this._uniformStep;
+        } else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
+        const r = settings.radius * this.__scaleMod;
+        particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
+        particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
+        if (settings.radial) {
+            particle.dx = Math.cos(angle);
+            particle.dy = Math.sin(angle);
+            particle.component.rotation = angle;
+        } else {
+            particle.dx = this._dx;
+            particle.dy = this._dy;
+            particle.component.rotation = emitter.rotation;
+        }
+        this._t += this._posInterpolationStep;
+    }
+}
+
+},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5FgwV":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence);
+var _baseEffect = require("./BaseEffect");
+var _effectSequenceComponentType = require("./EffectSequenceComponentType");
+var _particleEmitter = require("./ParticleEmitter");
+var _fxsignal = require("./util/FXSignal");
+var _linkedList = require("./util/LinkedList");
+var _rnd = require("./util/Rnd");
+class EffectSequence extends (0, _baseEffect.BaseEffect) {
+    constructor(componentId){
+        super(componentId);
+        this._list = [];
+        this._elements = new (0, _linkedList.LinkedList)();
+        this.__on = {
+            started: new (0, _fxsignal.FXSignal)(),
+            completed: new (0, _fxsignal.FXSignal)(),
+            exhausted: new (0, _fxsignal.FXSignal)(),
+            effectSpawned: new (0, _fxsignal.FXSignal)(),
+            triggerActivated: new (0, _fxsignal.FXSignal)()
+        };
+    }
+    // *********************************************************************************************
+    // * Public																			                                        		   *
+    // *********************************************************************************************
+    init(container, delay = 0, autoStart = true, scaleMod = 1) {
+        this.container = container;
+        this._scaleMod = scaleMod;
+        this._delay = delay * 1000;
+        if (autoStart) this.start();
+        return this;
+    }
+    start() {
+        if (this._active) return;
+        this._startTime = Date.now() + (this.settings.delay ? this.settings.delay * 1000 : 0) + this._delay;
+        this._index = 0;
+        if (this._list.length == 0) {
+            this._active = false;
+            if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            this.recycle();
+            return this;
+        }
+        this.exhausted = this.completed = false;
+        this.setNextEffect();
+        this.__fx.effectSequenceCount++;
+        this.__fx.__addActiveEffect(this);
+        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
+        return this;
+    }
+    update(dt) {
+        const t = Date.now();
+        if (t < this._startTime) return;
+        this._time += dt;
+        if (!this.exhausted && t >= this._effectStartTime) {
+            const fx = this.__fx;
+            const def = this._nextEffectSettings;
+            let effect;
+            let node;
+            let container;
+            switch(def.componentType){
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite:
+                    effect = fx.__getSprite(def.componentId);
+                    container = fx.__containers[def.containerId] || this.container;
+                    container.addChild(effect);
+                    effect.blendMode = fx.__getBlendMode(def.blendMode);
+                    effect.tint = def.tint;
+                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
+                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: t + def.duration * 1000
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip:
+                    effect = fx.__getMovieClip(def.componentId);
+                    if (def.componentParams.loop) {
+                        effect.animationSpeed = (0, _rnd.Rnd).float(def.componentParams.animationSpeedMin || 1, def.componentParams.animationSpeedMax || 1);
+                        effect.loop = def.componentParams.loop || false;
+                    } else {
+                        const speed = def.duration;
+                    }
+                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
+                    effect.gotoAndPlay(0);
+                    container = fx.__containers[def.containerId] || this.container;
+                    container.addChild(effect);
+                    effect.blendMode = fx.__getBlendMode(def.blendMode);
+                    effect.tint = def.tint;
+                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: t + def.duration * 1000
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter:
+                    effect = fx.getParticleEmitterById(def.componentId);
+                    container = fx.__containers[def.containerId] || this.container;
+                    effect.init(container, true, (0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
+                    node = new (0, _linkedList.Node)({
+                        component: effect,
+                        endTime: effect.endTime
+                    });
+                    this._elements.add(node);
+                    effect.x = this._x;
+                    effect.y = this._y;
+                    effect.rotation = this._rotation + effect.settings.rotation;
+                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter, effect);
+                    break;
+                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Trigger:
+                    if (this.__on.triggerActivated.__hasCallback) this.__on.triggerActivated.dispatch(def.triggerValue);
+                    break;
+            }
+            if (this._index == this._list.length) {
+                this.exhausted = true;
+                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
+            } else this.setNextEffect();
+        }
+        const list = this._elements;
+        let node = list.first;
+        while(node){
+            node.update(dt);
+            if (t > node.data.endTime) {
+                const component = node.data.component;
+                if (component instanceof (0, _particleEmitter.ParticleEmitter)) {
+                    if (component.completed) list.remove(node);
+                } else {
+                    list.remove(node);
+                    component.recycle();
+                }
+            }
+            node = node.next;
+        }
+        if (this.exhausted && list.length == 0) {
+            this._active = false;
+            this.completed = true;
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            this.recycle();
+        }
+    }
+    stop() {
+        this.recycle();
+    }
+    recycle() {
+        if (this.__recycled) return;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.component.recycle();
+            node = next;
+        }
+        const on = this.__on;
+        if (on.completed.__hasCallback) on.completed.removeAll();
+        if (on.started.__hasCallback) on.started.removeAll();
+        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
+        if (on.effectSpawned.__hasCallback) on.effectSpawned.removeAll();
+        if (on.triggerActivated.__hasCallback) on.triggerActivated.removeAll();
+        list.clear();
+        this.__recycled = true;
+        this._x = this._y = this._rotation = 0;
+        this.__fx.effectSequenceCount--;
+        this.__fx.__recycleEffectSequence(this);
+    }
+    dispose() {
+        this._elements.clear();
+        this.__fx = undefined;
+        const on = this.__on;
+        on.completed = on.started = on.exhausted = on.effectSpawned = on.triggerActivated = undefined;
+    }
+    set rotation(value) {
+        this._rotation = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.rotation = value;
+            node = next;
+        }
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.x = value;
+            node = next;
+        }
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = value;
+        const list = this._elements;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.data.y = value;
+            node = next;
+        }
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    get on() {
+        return this.__on;
+    }
+    // *********************************************************************************************
+    // * Private																		           *                              		   
+    // *********************************************************************************************
+    setNextEffect() {
+        if (this.exhausted) return;
+        const def = this._nextEffectSettings = this._list[this._index++];
+        this._effectStartTime = this._startTime + def.delay * 1000;
+    }
+    // *********************************************************************************************
+    // * Internal																		           *                              		   
+    // *********************************************************************************************
+    __applySettings(value) {
+        this.settings = value;
+        this.name = value.name;
+        this._list = value.effects.slice();
+        this.__recycled = false;
+    }
+}
+
+},{"./BaseEffect":"8PaYr","./EffectSequenceComponentType":"4AclN","./ParticleEmitter":"eMwca","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4AclN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>EffectSequenceComponentType);
+var EffectSequenceComponentType;
+(function(EffectSequenceComponentType) {
+    EffectSequenceComponentType[EffectSequenceComponentType["Sprite"] = 0] = "Sprite";
+    EffectSequenceComponentType[EffectSequenceComponentType["MovieClip"] = 1] = "MovieClip";
+    EffectSequenceComponentType[EffectSequenceComponentType["Emitter"] = 2] = "Emitter";
+    EffectSequenceComponentType[EffectSequenceComponentType["Trigger"] = 3] = "Trigger";
+})(EffectSequenceComponentType || (EffectSequenceComponentType = {}));
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eMwca":[function(require,module,exports) {
+/// <reference types="pixi.js" />
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "ParticleEmitter", ()=>ParticleEmitter);
+var _baseEffect = require("./BaseEffect");
+var _fx = require("./FX");
+var _deepClone = require("./util/DeepClone");
+var _deepCloneDefault = parcelHelpers.interopDefault(_deepClone);
+var _fxsignal = require("./util/FXSignal");
+var _linkedList = require("./util/LinkedList");
+var _rnd = require("./util/Rnd");
+class ParticleEmitter extends (0, _baseEffect.BaseEffect) {
+    constructor(componentId){
+        super(componentId);
+        this.targetOffset = 0;
+        this.autoRecycleOnComplete = true;
+        this._particles = new (0, _linkedList.LinkedList)();
+        this._particleCount = 0;
+        this._childEmitters = [];
+        this._hasChildEmitters = false;
+        this._paused = false;
+        this.__adoptRotation = false;
+        this.__on = {
+            started: new (0, _fxsignal.FXSignal)(),
+            completed: new (0, _fxsignal.FXSignal)(),
+            exhausted: new (0, _fxsignal.FXSignal)(),
+            particleUpdated: new (0, _fxsignal.FXSignal)(),
+            particleSpawned: new (0, _fxsignal.FXSignal)(),
+            particleBounced: new (0, _fxsignal.FXSignal)(),
+            particleDied: new (0, _fxsignal.FXSignal)()
+        };
+    }
+    // *********************************************************************************************
+    // * Public																                                        					   *
+    // *********************************************************************************************
+    init(container, autoStart = true, scaleMod = 1) {
+        this.container = container;
+        this.core.__scaleMod = this._scaleMod = scaleMod;
+        if (autoStart) this.start();
+        return this;
+    }
+    start() {
+        if (this._active) return this;
+        const t = Date.now();
+        const s = this.settings;
+        const RX = this.__fx;
+        RX.emitterCount++;
+        this.infinite = s.infinite;
+        this._time = Number.MAX_VALUE;
+        if (s.duration > 0) this.endTime = t + s.duration * 1000;
+        else this.endTime = s.duration;
+        this._nextSpawnTime = 0;
+        this._particleCount = 0;
+        this._active = true;
+        this.exhausted = this.completed = false;
+        RX.__addActiveEffect(this);
+        let l = s.childs.length;
+        this._hasChildEmitters = l > 0;
+        if (this._hasChildEmitters) while(--l > -1){
+            const def = s.childs[l];
+            const em = !this.settings.__isClone ? RX.getParticleEmitterById(def.id) : RX.createParticleEmitterFrom(def.settings);
+            const container = RX.__containers[em.settings.containerId] || this.container;
+            em.init(container, true, (def.scale || 1) * (this._scaleMod || 1));
+            if (def.adoptRotation) {
+                em.rotation = this._rotation;
+                em.__adoptRotation = true;
+            }
+            em.__parent = this;
+            this._childEmitters.push(em);
+        }
+        this.rotation = this._rotation;
+        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
+        return this;
+    }
+    stop(waitForParticles = true) {
+        if (waitForParticles) {
+            this.exhausted = true;
+            if (this._hasChildEmitters) this.stopChildEmitters(true);
+        } else {
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            if (this.autoRecycleOnComplete) this.recycle();
+            else {
+                this.recycleParticles();
+                this.completed = true;
+                this._active = false;
+                this.__fx.__removeActiveEffect(this);
+            }
+        }
+    }
+    update(dt) {
+        if (!this._active) return this;
+        const t = Date.now();
+        const s = this.settings;
+        if (!this.exhausted) {
+            if (this.settings.autoRotation !== 0) this.rotation += s.autoRotation * (dt / 0.016666);
+            if (this.target) {
+                this.rotation = this.target.rotation;
+                if (this.targetOffset == 0) {
+                    this.x = this.target.x;
+                    this.y = this.target.y;
+                } else {
+                    this.x = this.target.x + Math.cos(this._rotation) * this.targetOffset;
+                    this.y = this.target.y + Math.sin(this._rotation) * this.targetOffset;
+                }
+            }
+            if (this.endTime == 0 && !this.infinite) {
+                this.spawn();
+                this.exhausted = true;
+            } else if (this.infinite || t < this.endTime) {
+                this._time += dt;
+                if (this._time >= this._nextSpawnTime) {
+                    this._time = 0;
+                    this.spawn();
+                    this._nextSpawnTime = this._time + (0, _rnd.Rnd).float(s.spawnFrequencyMin, s.spawnFrequencyMax);
+                }
+            } else {
+                this.exhausted = true;
+                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
+            }
+        } else if (this._particleCount == 0) {
+            this._active = false;
+            this.completed = true;
+            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
+            this.__fx.__removeActiveEffect(this);
+            if (this.autoRecycleOnComplete) this.recycle();
+        }
+        const list = this._particles;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.update(dt);
+            node = next;
+        }
+        return this;
+    }
+    spawn() {
+        if (this._paused) return this;
+        const s = this.settings;
+        const fx = this.__fx;
+        let n = (0, _rnd.Rnd).integer(s.spawnCountMin, s.spawnCountMax) * fx.particleFac;
+        this.core.prepare(n);
+        while(--n > -1){
+            if (this._particleCount >= s.maxParticles || fx.particleCount >= fx.maxParticles) return this;
+            const ps = s.particleSettings;
+            const p = fx.__getParticle();
+            let component;
+            switch(ps.componentType){
+                case 0:
+                    p.componentId = ps.componentId;
+                    component = fx.__getSprite(p.componentId);
+                    break;
+                case 1:
+                    p.componentId = ps.componentId;
+                    component = fx.__getMovieClip(p.componentId);
+                    if (ps.componentParams) {
+                        component.loop = ps.componentParams.loop == null || !ps.componentParams.loop ? false : true;
+                        component.animationSpeed = (0, _rnd.Rnd).float(ps.componentParams.animationSpeedMin || 1, ps.componentParams.animationSpeedMax || 1);
+                    }
+                    component.gotoAndPlay(0);
+                    break;
+            }
+            component.anchor.set(ps.componentParams.anchorX, ps.componentParams.anchorY);
+            p.component = component;
+            this.core.emit(p);
+            p.init(this, ps, this._scaleMod);
+            this._particles.add(p);
+            this._particleCount++;
+            fx.particleCount++;
+        }
+        this.core.step();
+        this._nextSpawnTime = (0, _rnd.Rnd).float(s.spawnFrequencyMin, s.spawnFrequencyMax);
+        return this;
+    }
+    recycle() {
+        if (this.__recycled) return;
+        if (this.__parent) {
+            this.__parent.__removeChildEmitter(this);
+            this.__parent = undefined;
+        }
+        this.recycleParticles();
+        this.settings = undefined;
+        this._active = false;
+        this._paused = false;
+        this.completed = true;
+        this._x = this._y = this._rotation = 0;
+        if (this._hasChildEmitters) {
+            this.stopChildEmitters(true);
+            this._childEmitters.length = 0;
+            this._hasChildEmitters = false;
+        }
+        this.__fx.emitterCount--;
+        this.__fx.__recycleEmitter(this);
+        this.__recycled = true;
+        this.__adoptRotation = false;
+        this.core = null;
+        this.target = null;
+        this.name = null;
+        const on = this.__on;
+        if (on.completed.__hasCallback) on.completed.removeAll();
+        if (on.started.__hasCallback) on.started.removeAll();
+        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
+        if (on.particleBounced.__hasCallback) on.particleBounced.removeAll();
+        if (on.particleDied.__hasCallback) on.particleDied.removeAll();
+        if (on.particleSpawned.__hasCallback) on.particleSpawned.removeAll();
+        if (on.particleUpdated.__hasCallback) on.particleUpdated.removeAll();
+    }
+    dispose() {
+        const list = this._particles;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.recycle();
+            node = next;
+        }
+        list.clear();
+        this.__recycled = true;
+        if (this._hasChildEmitters) this.stopChildEmitters(false);
+        this.__fx.particleCount -= this._particleCount;
+        this._particles = null;
+        this.componentId = null;
+        this.settings = null;
+        this._active = false;
+        this.completed = true;
+        this._childEmitters = null;
+        if (this.core) this.core.dispose();
+        this.core = null;
+        this.target = null;
+        this.name = null;
+        const on = this.__on;
+        on.completed.removeAll();
+        on.started.removeAll();
+        on.exhausted.removeAll();
+        on.particleBounced.removeAll();
+        on.particleDied.removeAll();
+        on.particleSpawned.removeAll();
+        on.particleUpdated.removeAll();
+        this.__parent = null;
+        this.__fx.__removeActiveEffect(this);
+        this.__fx = null;
+    }
+    get x() {
+        return this._x;
+    }
+    set x(value) {
+        this._x = this.core.x = value;
+        if (!this._xPosIntialized) {
+            this.core.__x = value;
+            this._xPosIntialized = true;
+        }
+        if (this._hasChildEmitters) {
+            const childs = this._childEmitters;
+            let l = childs.length;
+            while(--l > -1)childs[l].x = value;
+        }
+    }
+    get y() {
+        return this._y;
+    }
+    set y(value) {
+        this._y = this.core.y = value;
+        if (!this._yPosIntialized) {
+            this.core.__y = value;
+            this._yPosIntialized = true;
+        }
+        if (this._hasChildEmitters) {
+            const childs = this._childEmitters;
+            let l = childs.length;
+            while(--l > -1)childs[l].y = value;
+        }
+    }
+    set rotation(value) {
+        this._rotation = this.core.rotation = value;
+        if (this._hasChildEmitters) {
+            const childs = this._childEmitters;
+            let l = childs.length;
+            while(--l > -1){
+                const child = childs[l];
+                if (child.__adoptRotation) child.rotation = child.settings.rotation + value;
+            }
+        }
+    }
+    get rotation() {
+        return this._rotation;
+    }
+    get paused() {
+        return this._paused;
+    }
+    set paused(value) {
+        this._paused = value;
+        if (this._hasChildEmitters) {
+            const childs = this._childEmitters;
+            let l = childs.length;
+            while(--l > -1)childs[l].paused = value;
+        }
+    }
+    get on() {
+        return this.__on;
+    }
+    // *********************************************************************************************
+    // * Private																				                                           *
+    // *********************************************************************************************
+    recycleParticles() {
+        let node = this._particles.first;
+        let next;
+        while(node){
+            next = node.next;
+            node.recycle();
+            node = next;
+        }
+        this._particles.clear();
+        this.__fx.particleCount -= this._particleCount;
+    }
+    stopChildEmitters(waitForParticles) {
+        const childs = this._childEmitters;
+        let l = childs.length;
+        while(--l > -1)childs[l].stop(waitForParticles);
+    }
+    // *********************************************************************************************
+    // * Internal																				                                           *
+    // *********************************************************************************************
+    __removeParticle(particle) {
+        if (particle.useSpawns && this._spawnOnComplete) this.__subSpawn(particle, this.settings.particleSettings.spawn.onComplete);
+        this._particles.remove(particle);
+        this._particleCount--;
+        this.__fx.particleCount--;
+        particle.recycle();
+    }
+    __removeChildEmitter(emitter) {
+        const index = this._childEmitters.indexOf(emitter);
+        if (index > -1) {
+            this._childEmitters.splice(index, 1);
+            if (this._childEmitters.length == 0) this._hasChildEmitters = false;
+        }
+    }
+    __subSpawn(particle, list) {
+        const fx = this.__fx;
+        if (list) {
+            let l = list.length;
+            while(--l > -1){
+                const def = list[l];
+                let component;
+                let container;
+                switch(def.type){
+                    case 0:
+                        component = !this.settings.__isClone ? fx.getParticleEmitterById(def.id) : fx.createParticleEmitterFrom(def.settings);
+                        container = fx.__containers[component.settings.containerId] || this.container;
+                        component.init(container, true, (def.scale || 1) * this._scaleMod);
+                        if (def.adoptRotation) {
+                            component.rotation = particle.component.rotation + component.settings.rotation;
+                            component.__adoptRotation = true;
+                        } else component.rotation = component.settings.rotation;
+                        break;
+                    case 1:
+                        component = !this.settings.__isClone ? fx.getEffectSequenceById(def.id) : fx.createEffectSequenceEmitterFrom(def.settings);
+                        container = fx.__containers[component.settings.containerId] || this.container;
+                        component.init(container, 0, true, (def.scale || 1) * this._scaleMod);
+                        if (def.adoptRotation) component.rotation = particle.component.rotation;
+                        break;
+                }
+                component.x = particle.component.x;
+                component.y = particle.component.y;
+            }
+        }
+    }
+    __applySettings(value) {
+        const fx = this.__fx;
+        this.__recycled = this._xPosIntialized = this._yPosIntialized = false;
+        this.settings = value;
+        this.core = fx.__getEmitterCore(value.core.type, this);
+        this.core.init(this);
+        this.rotation = value.rotation;
+        this.name = value.name;
+        this._spawnOnComplete = value.particleSettings.spawn.onComplete.length > 0;
+        this._childEmitters.length = 0;
+        if (value.__isClone) {
+            //Clone spawns
+            const spawns = value.particleSettings.spawn;
+            for(const key in spawns){
+                const list = spawns[key];
+                for (const spawn of list){
+                    switch(spawn.type){
+                        case (0, _fx.SpawnType).ParticleEmitter:
+                            spawn.settings = (0, _deepCloneDefault.default)(fx.__getEmitterSettings(spawn.id));
+                            break;
+                        case (0, _fx.SpawnType).EffectSequence:
+                            spawn.settings = (0, _deepCloneDefault.default)(fx.__getSequenceSettings(spawn.id));
+                            break;
+                    }
+                    spawn.settings.__isClone = true;
+                }
+            }
+            //Clone childs
+            const childs = value.childs;
+            for (const spawn of childs){
+                switch(spawn.type){
+                    case (0, _fx.SpawnType).ParticleEmitter:
+                        spawn.settings = (0, _deepCloneDefault.default)(fx.__getEmitterSettings(spawn.id));
+                        break;
+                    case (0, _fx.SpawnType).EffectSequence:
+                        spawn.settings = (0, _deepCloneDefault.default)(fx.__getSequenceSettings(spawn.id));
+                        break;
+                }
+                spawn.settings.__isClone = true;
+            }
+        }
+    }
+    __setCore(type) {
+        this.core = this.__fx.__getEmitterCore(type, this);
+        this.core.init(this);
+        this.core.__scaleMod = this._scaleMod;
+        this._xPosIntialized = this._yPosIntialized = false;
+    }
+}
+
+},{"./BaseEffect":"8PaYr","./FX":"gqAw0","./util/DeepClone":"eXaoL","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gqAw0":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -53998,939 +55084,7 @@ var SpawnType;
     SpawnType[SpawnType["EffectSequence"] = 1] = "EffectSequence";
 })(SpawnType || (SpawnType = {}));
 
-},{"pixi.js":"1arn0","./ComponentType":"7p3uS","./EffectSequence":"5udqW","./EffectSequenceComponentType":"ftCiq","./MovieClip":"iD0EN","./Particle":"b2W0V","./ParticleEmitter":"gb8J9","./Sanitizer":"h9AGS","./Sprite":"7td6h","./core/BoxEmitterCore":"aGdLB","./core/CircleEmitterCore":"VlyZK","./core/RingEmitterCore":"d7oDU","./util/DeepClone":"e1gkE","./util/LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7p3uS":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ComponentType", ()=>ComponentType);
-var ComponentType;
-(function(ComponentType) {
-    ComponentType[ComponentType["Sprite"] = 0] = "Sprite";
-    ComponentType[ComponentType["MovieClip"] = 1] = "MovieClip";
-})(ComponentType || (ComponentType = {}));
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5udqW":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence);
-var _baseEffect = require("./BaseEffect");
-var _effectSequenceComponentType = require("./EffectSequenceComponentType");
-var _particleEmitter = require("./ParticleEmitter");
-var _fxsignal = require("./util/FXSignal");
-var _linkedList = require("./util/LinkedList");
-var _rnd = require("./util/Rnd");
-class EffectSequence extends (0, _baseEffect.BaseEffect) {
-    constructor(componentId){
-        super(componentId);
-        this._list = [];
-        this._elements = new (0, _linkedList.LinkedList)();
-        this.__on = {
-            started: new (0, _fxsignal.FXSignal)(),
-            completed: new (0, _fxsignal.FXSignal)(),
-            exhausted: new (0, _fxsignal.FXSignal)(),
-            effectSpawned: new (0, _fxsignal.FXSignal)(),
-            triggerActivated: new (0, _fxsignal.FXSignal)()
-        };
-    }
-    // *********************************************************************************************
-    // * Public																			                                        		   *
-    // *********************************************************************************************
-    init(container, delay = 0, autoStart = true, scaleMod = 1) {
-        this.container = container;
-        this._scaleMod = scaleMod;
-        this._delay = delay * 1000;
-        if (autoStart) this.start();
-        return this;
-    }
-    start() {
-        if (this._active) return;
-        this._startTime = Date.now() + (this.settings.delay ? this.settings.delay * 1000 : 0) + this._delay;
-        this._index = 0;
-        if (this._list.length == 0) {
-            this._active = false;
-            if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            this.recycle();
-            return this;
-        }
-        this.exhausted = this.completed = false;
-        this.setNextEffect();
-        this.__fx.effectSequenceCount++;
-        this.__fx.__addActiveEffect(this);
-        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
-        return this;
-    }
-    update(dt) {
-        const t = Date.now();
-        if (t < this._startTime) return;
-        this._time += dt;
-        if (!this.exhausted && t >= this._effectStartTime) {
-            const fx = this.__fx;
-            const def = this._nextEffectSettings;
-            let effect;
-            let node;
-            let container;
-            switch(def.componentType){
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite:
-                    effect = fx.__getSprite(def.componentId);
-                    container = fx.__containers[def.containerId] || this.container;
-                    container.addChild(effect);
-                    effect.blendMode = fx.__getBlendMode(def.blendMode);
-                    effect.tint = def.tint;
-                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
-                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: t + def.duration * 1000
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Sprite, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip:
-                    effect = fx.__getMovieClip(def.componentId);
-                    if (def.componentParams.loop) {
-                        effect.animationSpeed = (0, _rnd.Rnd).float(def.componentParams.animationSpeedMin || 1, def.componentParams.animationSpeedMax || 1);
-                        effect.loop = def.componentParams.loop || false;
-                    } else {
-                        const speed = def.duration;
-                    }
-                    effect.anchor.set(def.componentParams.anchorX, def.componentParams.anchorY);
-                    effect.gotoAndPlay(0);
-                    container = fx.__containers[def.containerId] || this.container;
-                    container.addChild(effect);
-                    effect.blendMode = fx.__getBlendMode(def.blendMode);
-                    effect.tint = def.tint;
-                    effect.scale.set((0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    effect.alpha = (0, _rnd.Rnd).float(def.alphaMin, def.alphaMax);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: t + def.duration * 1000
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + (0, _rnd.Rnd).float(def.rotationMin, def.rotationMax);
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).MovieClip, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter:
-                    effect = fx.getParticleEmitterById(def.componentId);
-                    container = fx.__containers[def.containerId] || this.container;
-                    effect.init(container, true, (0, _rnd.Rnd).float(def.scaleMin, def.scaleMax) * (0, _rnd.Rnd).float(this.settings.scaleMin, this.settings.scaleMax) * this._scaleMod);
-                    node = new (0, _linkedList.Node)({
-                        component: effect,
-                        endTime: effect.endTime
-                    });
-                    this._elements.add(node);
-                    effect.x = this._x;
-                    effect.y = this._y;
-                    effect.rotation = this._rotation + effect.settings.rotation;
-                    if (this.__on.effectSpawned.__hasCallback) this.__on.effectSpawned.dispatch((0, _effectSequenceComponentType.EffectSequenceComponentType).Emitter, effect);
-                    break;
-                case (0, _effectSequenceComponentType.EffectSequenceComponentType).Trigger:
-                    if (this.__on.triggerActivated.__hasCallback) this.__on.triggerActivated.dispatch(def.triggerValue);
-                    break;
-            }
-            if (this._index == this._list.length) {
-                this.exhausted = true;
-                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
-            } else this.setNextEffect();
-        }
-        const list = this._elements;
-        let node = list.first;
-        while(node){
-            node.update(dt);
-            if (t > node.data.endTime) {
-                const component = node.data.component;
-                if (component instanceof (0, _particleEmitter.ParticleEmitter)) {
-                    if (component.completed) list.remove(node);
-                } else {
-                    list.remove(node);
-                    component.recycle();
-                }
-            }
-            node = node.next;
-        }
-        if (this.exhausted && list.length == 0) {
-            this._active = false;
-            this.completed = true;
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            this.recycle();
-        }
-    }
-    stop() {
-        this.recycle();
-    }
-    recycle() {
-        if (this.__recycled) return;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.component.recycle();
-            node = next;
-        }
-        const on = this.__on;
-        if (on.completed.__hasCallback) on.completed.removeAll();
-        if (on.started.__hasCallback) on.started.removeAll();
-        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
-        if (on.effectSpawned.__hasCallback) on.effectSpawned.removeAll();
-        if (on.triggerActivated.__hasCallback) on.triggerActivated.removeAll();
-        list.clear();
-        this.__recycled = true;
-        this._x = this._y = this._rotation = 0;
-        this.__fx.effectSequenceCount--;
-        this.__fx.__recycleEffectSequence(this);
-    }
-    dispose() {
-        this._elements.clear();
-        this.__fx = undefined;
-        const on = this.__on;
-        on.completed = on.started = on.exhausted = on.effectSpawned = on.triggerActivated = undefined;
-    }
-    set rotation(value) {
-        this._rotation = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.rotation = value;
-            node = next;
-        }
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.x = value;
-            node = next;
-        }
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = value;
-        const list = this._elements;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.data.y = value;
-            node = next;
-        }
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    get on() {
-        return this.__on;
-    }
-    // *********************************************************************************************
-    // * Private																		           *                              		   
-    // *********************************************************************************************
-    setNextEffect() {
-        if (this.exhausted) return;
-        const def = this._nextEffectSettings = this._list[this._index++];
-        this._effectStartTime = this._startTime + def.delay * 1000;
-    }
-    // *********************************************************************************************
-    // * Internal																		           *                              		   
-    // *********************************************************************************************
-    __applySettings(value) {
-        this.settings = value;
-        this.name = value.name;
-        this._list = value.effects.slice();
-        this.__recycled = false;
-    }
-}
-
-},{"./BaseEffect":"6ccWH","./EffectSequenceComponentType":"ftCiq","./ParticleEmitter":"gb8J9","./util/FXSignal":"9TYhH","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6ccWH":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect);
-var _pixiJs = require("pixi.js");
-var _linkedList = require("./util/LinkedList");
-class BaseEffect extends (0, _linkedList.Node) {
-    constructor(componentId){
-        super();
-        this.componentId = componentId;
-        this.exhausted = false;
-        this.completed = false;
-        this.name = "";
-        this.endTime = 0;
-        this._x = 0;
-        this._y = 0;
-        this._rotation = 0;
-        this._alpha = 0;
-        this._scale = new _pixiJs.Point();
-        this._time = 0;
-        this._active = false;
-        this.__recycled = true;
-    }
-    // *********************************************************************************************
-    // * Public																					                                           *
-    // *********************************************************************************************
-    update(dt) {}
-    recycle() {}
-    get active() {
-        return this._active;
-    }
-    get scale() {
-        return this._scale;
-    }
-    set scale(value) {
-        this._scale = value;
-    }
-    get alpha() {
-        return this._alpha;
-    }
-    set alpha(value) {
-        this._alpha = value;
-    }
-    set rotation(value) {
-        this._rotation = value;
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = value;
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = value;
-    }
-    // *********************************************************************************************
-    // * internal										                                        										   *
-    // *********************************************************************************************
-    __applySettings(value) {}
-}
-
-},{"pixi.js":"1arn0","./util/LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"55Vu6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "LinkedList", ()=>LinkedList);
-parcelHelpers.export(exports, "Node", ()=>Node);
-class LinkedList {
-    constructor(){
-        this.__length = 0;
-    }
-    // *********************************************************************************************
-    // * Public																                       *
-    // *********************************************************************************************
-    get length() {
-        return this.__length;
-    }
-    add(node) {
-        if (this.first == null) this.first = this.last = node;
-        else {
-            node.prev = this.last;
-            this.last.next = node;
-            this.last = node;
-        }
-        node.list = this;
-        this.__length++;
-        return this;
-    }
-    remove(node) {
-        if (node.list == null) return;
-        if (this.first === this.last) this.first = this.last = null;
-        else if (this.__length > 0) {
-            if (node === this.last) {
-                node.prev.next = null;
-                this.last = node.prev;
-            } else if (node === this.first) {
-                node.next.prev = null;
-                this.first = node.next;
-            } else {
-                node.next.prev = node.prev;
-                node.prev.next = node.next;
-            }
-        }
-        node.next = node.prev = node.list = null;
-        this.__length--;
-        return this;
-    }
-    clear() {
-        if (!this.first) return;
-        let node = this.first;
-        while(node){
-            let next = node.next;
-            node.next = node.prev = node.list = null;
-            node = next;
-        }
-        this.first = this.last = null;
-    }
-    toArray() {
-        const ret = [];
-        if (!this.first) return ret;
-        let node = this.first;
-        while(node){
-            ret.push(node);
-            node = node.next;
-        }
-        return ret;
-    }
-}
-class Node {
-    constructor(data){
-        this.data = data;
-    }
-    update(dt) {}
-    dispose() {}
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ftCiq":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>EffectSequenceComponentType);
-var EffectSequenceComponentType;
-(function(EffectSequenceComponentType) {
-    EffectSequenceComponentType[EffectSequenceComponentType["Sprite"] = 0] = "Sprite";
-    EffectSequenceComponentType[EffectSequenceComponentType["MovieClip"] = 1] = "MovieClip";
-    EffectSequenceComponentType[EffectSequenceComponentType["Emitter"] = 2] = "Emitter";
-    EffectSequenceComponentType[EffectSequenceComponentType["Trigger"] = 3] = "Trigger";
-})(EffectSequenceComponentType || (EffectSequenceComponentType = {}));
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gb8J9":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ParticleEmitter", ()=>ParticleEmitter);
-var _baseEffect = require("./BaseEffect");
-var _fx = require("./FX");
-var _deepClone = require("./util/DeepClone");
-var _deepCloneDefault = parcelHelpers.interopDefault(_deepClone);
-var _fxsignal = require("./util/FXSignal");
-var _linkedList = require("./util/LinkedList");
-var _rnd = require("./util/Rnd");
-class ParticleEmitter extends (0, _baseEffect.BaseEffect) {
-    constructor(componentId){
-        super(componentId);
-        this.targetOffset = 0;
-        this.autoRecycleOnComplete = true;
-        this._particles = new (0, _linkedList.LinkedList)();
-        this._particleCount = 0;
-        this._childEmitters = [];
-        this._hasChildEmitters = false;
-        this._paused = false;
-        this.__adoptRotation = false;
-        this.__on = {
-            started: new (0, _fxsignal.FXSignal)(),
-            completed: new (0, _fxsignal.FXSignal)(),
-            exhausted: new (0, _fxsignal.FXSignal)(),
-            particleUpdated: new (0, _fxsignal.FXSignal)(),
-            particleSpawned: new (0, _fxsignal.FXSignal)(),
-            particleBounced: new (0, _fxsignal.FXSignal)(),
-            particleDied: new (0, _fxsignal.FXSignal)()
-        };
-    }
-    // *********************************************************************************************
-    // * Public																                                        					   *
-    // *********************************************************************************************
-    init(container, autoStart = true, scaleMod = 1) {
-        this.container = container;
-        this.core.__scaleMod = this._scaleMod = scaleMod;
-        if (autoStart) this.start();
-        return this;
-    }
-    start() {
-        if (this._active) return this;
-        const t = Date.now();
-        const s = this.settings;
-        const RX = this.__fx;
-        RX.emitterCount++;
-        this.infinite = s.infinite;
-        this._time = Number.MAX_VALUE;
-        if (s.duration > 0) this.endTime = t + s.duration * 1000;
-        else this.endTime = s.duration;
-        this._nextSpawnTime = 0;
-        this._particleCount = 0;
-        this._active = true;
-        this.exhausted = this.completed = false;
-        RX.__addActiveEffect(this);
-        let l = s.childs.length;
-        this._hasChildEmitters = l > 0;
-        if (this._hasChildEmitters) while(--l > -1){
-            const def = s.childs[l];
-            const em = !this.settings.__isClone ? RX.getParticleEmitterById(def.id) : RX.createParticleEmitterFrom(def.settings);
-            const container = RX.__containers[em.settings.containerId] || this.container;
-            em.init(container, true, (def.scale || 1) * (this._scaleMod || 1));
-            if (def.adoptRotation) {
-                em.rotation = this._rotation;
-                em.__adoptRotation = true;
-            }
-            em.__parent = this;
-            this._childEmitters.push(em);
-        }
-        this.rotation = this._rotation;
-        if (this.__on.started.__hasCallback) this.__on.started.dispatch(this);
-        return this;
-    }
-    stop(waitForParticles = true) {
-        if (waitForParticles) {
-            this.exhausted = true;
-            if (this._hasChildEmitters) this.stopChildEmitters(true);
-        } else {
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            if (this.autoRecycleOnComplete) this.recycle();
-            else {
-                this.recycleParticles();
-                this.completed = true;
-                this._active = false;
-                this.__fx.__removeActiveEffect(this);
-            }
-        }
-    }
-    update(dt) {
-        if (!this._active) return this;
-        const t = Date.now();
-        const s = this.settings;
-        if (!this.exhausted) {
-            if (this.settings.autoRotation !== 0) this.rotation += s.autoRotation * (dt / 0.016666);
-            if (this.target) {
-                this.rotation = this.target.rotation;
-                if (this.targetOffset == 0) {
-                    this.x = this.target.x;
-                    this.y = this.target.y;
-                } else {
-                    this.x = this.target.x + Math.cos(this._rotation) * this.targetOffset;
-                    this.y = this.target.y + Math.sin(this._rotation) * this.targetOffset;
-                }
-            }
-            if (this.endTime == 0 && !this.infinite) {
-                this.spawn();
-                this.exhausted = true;
-            } else if (this.infinite || t < this.endTime) {
-                this._time += dt;
-                if (this._time >= this._nextSpawnTime) {
-                    this._time = 0;
-                    this.spawn();
-                    this._nextSpawnTime = this._time + (0, _rnd.Rnd).float(s.spawnFrequencyMin, s.spawnFrequencyMax);
-                }
-            } else {
-                this.exhausted = true;
-                if (this.__on.exhausted.__hasCallback) this.__on.exhausted.dispatch(this);
-            }
-        } else if (this._particleCount == 0) {
-            this._active = false;
-            this.completed = true;
-            if (this.__on.completed.__hasCallback) this.__on.completed.dispatch(this);
-            this.__fx.__removeActiveEffect(this);
-            if (this.autoRecycleOnComplete) this.recycle();
-        }
-        const list = this._particles;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.update(dt);
-            node = next;
-        }
-        return this;
-    }
-    spawn() {
-        if (this._paused) return this;
-        const s = this.settings;
-        const fx = this.__fx;
-        let n = (0, _rnd.Rnd).integer(s.spawnCountMin, s.spawnCountMax) * fx.particleFac;
-        this.core.prepare(n);
-        while(--n > -1){
-            if (this._particleCount >= s.maxParticles || fx.particleCount >= fx.maxParticles) return this;
-            const ps = s.particleSettings;
-            const p = fx.__getParticle();
-            let component;
-            switch(ps.componentType){
-                case 0:
-                    p.componentId = ps.componentId;
-                    component = fx.__getSprite(p.componentId);
-                    break;
-                case 1:
-                    p.componentId = ps.componentId;
-                    component = fx.__getMovieClip(p.componentId);
-                    if (ps.componentParams) {
-                        component.loop = ps.componentParams.loop == null || !ps.componentParams.loop ? false : true;
-                        component.animationSpeed = (0, _rnd.Rnd).float(ps.componentParams.animationSpeedMin || 1, ps.componentParams.animationSpeedMax || 1);
-                    }
-                    component.gotoAndPlay(0);
-                    break;
-            }
-            component.anchor.set(ps.componentParams.anchorX, ps.componentParams.anchorY);
-            p.component = component;
-            this.core.emit(p);
-            p.init(this, ps, this._scaleMod);
-            this._particles.add(p);
-            this._particleCount++;
-            fx.particleCount++;
-        }
-        this.core.step();
-        this._nextSpawnTime = (0, _rnd.Rnd).float(s.spawnFrequencyMin, s.spawnFrequencyMax);
-        return this;
-    }
-    recycle() {
-        if (this.__recycled) return;
-        if (this.__parent) {
-            this.__parent.__removeChildEmitter(this);
-            this.__parent = undefined;
-        }
-        this.recycleParticles();
-        this.settings = undefined;
-        this._active = false;
-        this._paused = false;
-        this.completed = true;
-        this._x = this._y = this._rotation = 0;
-        if (this._hasChildEmitters) {
-            this.stopChildEmitters(true);
-            this._childEmitters.length = 0;
-            this._hasChildEmitters = false;
-        }
-        this.__fx.emitterCount--;
-        this.__fx.__recycleEmitter(this);
-        this.__recycled = true;
-        this.__adoptRotation = false;
-        this.core = null;
-        this.target = null;
-        this.name = null;
-        const on = this.__on;
-        if (on.completed.__hasCallback) on.completed.removeAll();
-        if (on.started.__hasCallback) on.started.removeAll();
-        if (on.exhausted.__hasCallback) on.exhausted.removeAll();
-        if (on.particleBounced.__hasCallback) on.particleBounced.removeAll();
-        if (on.particleDied.__hasCallback) on.particleDied.removeAll();
-        if (on.particleSpawned.__hasCallback) on.particleSpawned.removeAll();
-        if (on.particleUpdated.__hasCallback) on.particleUpdated.removeAll();
-    }
-    dispose() {
-        const list = this._particles;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.recycle();
-            node = next;
-        }
-        list.clear();
-        this.__recycled = true;
-        if (this._hasChildEmitters) this.stopChildEmitters(false);
-        this.__fx.particleCount -= this._particleCount;
-        this._particles = null;
-        this.componentId = null;
-        this.settings = null;
-        this._active = false;
-        this.completed = true;
-        this._childEmitters = null;
-        if (this.core) this.core.dispose();
-        this.core = null;
-        this.target = null;
-        this.name = null;
-        const on = this.__on;
-        on.completed.removeAll();
-        on.started.removeAll();
-        on.exhausted.removeAll();
-        on.particleBounced.removeAll();
-        on.particleDied.removeAll();
-        on.particleSpawned.removeAll();
-        on.particleUpdated.removeAll();
-        this.__parent = null;
-        this.__fx.__removeActiveEffect(this);
-        this.__fx = null;
-    }
-    get x() {
-        return this._x;
-    }
-    set x(value) {
-        this._x = this.core.x = value;
-        if (!this._xPosIntialized) {
-            this.core.__x = value;
-            this._xPosIntialized = true;
-        }
-        if (this._hasChildEmitters) {
-            const childs = this._childEmitters;
-            let l = childs.length;
-            while(--l > -1)childs[l].x = value;
-        }
-    }
-    get y() {
-        return this._y;
-    }
-    set y(value) {
-        this._y = this.core.y = value;
-        if (!this._yPosIntialized) {
-            this.core.__y = value;
-            this._yPosIntialized = true;
-        }
-        if (this._hasChildEmitters) {
-            const childs = this._childEmitters;
-            let l = childs.length;
-            while(--l > -1)childs[l].y = value;
-        }
-    }
-    set rotation(value) {
-        this._rotation = this.core.rotation = value;
-        if (this._hasChildEmitters) {
-            const childs = this._childEmitters;
-            let l = childs.length;
-            while(--l > -1){
-                const child = childs[l];
-                if (child.__adoptRotation) child.rotation = child.settings.rotation + value;
-            }
-        }
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    get paused() {
-        return this._paused;
-    }
-    set paused(value) {
-        this._paused = value;
-        if (this._hasChildEmitters) {
-            const childs = this._childEmitters;
-            let l = childs.length;
-            while(--l > -1)childs[l].paused = value;
-        }
-    }
-    get on() {
-        return this.__on;
-    }
-    // *********************************************************************************************
-    // * Private																				                                           *
-    // *********************************************************************************************
-    recycleParticles() {
-        let node = this._particles.first;
-        let next;
-        while(node){
-            next = node.next;
-            node.recycle();
-            node = next;
-        }
-        this._particles.clear();
-        this.__fx.particleCount -= this._particleCount;
-    }
-    stopChildEmitters(waitForParticles) {
-        const childs = this._childEmitters;
-        let l = childs.length;
-        while(--l > -1)childs[l].stop(waitForParticles);
-    }
-    // *********************************************************************************************
-    // * Internal																				                                           *
-    // *********************************************************************************************
-    __removeParticle(particle) {
-        if (particle.useSpawns && this._spawnOnComplete) this.__subSpawn(particle, this.settings.particleSettings.spawn.onComplete);
-        this._particles.remove(particle);
-        this._particleCount--;
-        this.__fx.particleCount--;
-        particle.recycle();
-    }
-    __removeChildEmitter(emitter) {
-        const index = this._childEmitters.indexOf(emitter);
-        if (index > -1) {
-            this._childEmitters.splice(index, 1);
-            if (this._childEmitters.length == 0) this._hasChildEmitters = false;
-        }
-    }
-    __subSpawn(particle, list) {
-        const fx = this.__fx;
-        if (list) {
-            let l = list.length;
-            while(--l > -1){
-                const def = list[l];
-                let component;
-                let container;
-                switch(def.type){
-                    case 0:
-                        component = !this.settings.__isClone ? fx.getParticleEmitterById(def.id) : fx.createParticleEmitterFrom(def.settings);
-                        container = fx.__containers[component.settings.containerId] || this.container;
-                        component.init(container, true, (def.scale || 1) * this._scaleMod);
-                        if (def.adoptRotation) {
-                            component.rotation = particle.component.rotation + component.settings.rotation;
-                            component.__adoptRotation = true;
-                        } else component.rotation = component.settings.rotation;
-                        break;
-                    case 1:
-                        component = !this.settings.__isClone ? fx.getEffectSequenceById(def.id) : fx.createEffectSequenceEmitterFrom(def.settings);
-                        container = fx.__containers[component.settings.containerId] || this.container;
-                        component.init(container, 0, true, (def.scale || 1) * this._scaleMod);
-                        if (def.adoptRotation) component.rotation = particle.component.rotation;
-                        break;
-                }
-                component.x = particle.component.x;
-                component.y = particle.component.y;
-            }
-        }
-    }
-    __applySettings(value) {
-        const fx = this.__fx;
-        this.__recycled = this._xPosIntialized = this._yPosIntialized = false;
-        this.settings = value;
-        this.core = fx.__getEmitterCore(value.core.type, this);
-        this.core.init(this);
-        this.rotation = value.rotation;
-        this.name = value.name;
-        this._spawnOnComplete = value.particleSettings.spawn.onComplete.length > 0;
-        this._childEmitters.length = 0;
-        if (value.__isClone) {
-            //Clone spawns
-            const spawns = value.particleSettings.spawn;
-            for(const key in spawns){
-                const list = spawns[key];
-                for (const spawn of list){
-                    switch(spawn.type){
-                        case (0, _fx.SpawnType).ParticleEmitter:
-                            spawn.settings = (0, _deepCloneDefault.default)(fx.__getEmitterSettings(spawn.id));
-                            break;
-                        case (0, _fx.SpawnType).EffectSequence:
-                            spawn.settings = (0, _deepCloneDefault.default)(fx.__getSequenceSettings(spawn.id));
-                            break;
-                    }
-                    spawn.settings.__isClone = true;
-                }
-            }
-            //Clone childs
-            const childs = value.childs;
-            for (const spawn of childs){
-                switch(spawn.type){
-                    case (0, _fx.SpawnType).ParticleEmitter:
-                        spawn.settings = (0, _deepCloneDefault.default)(fx.__getEmitterSettings(spawn.id));
-                        break;
-                    case (0, _fx.SpawnType).EffectSequence:
-                        spawn.settings = (0, _deepCloneDefault.default)(fx.__getSequenceSettings(spawn.id));
-                        break;
-                }
-                spawn.settings.__isClone = true;
-            }
-        }
-    }
-    __setCore(type) {
-        this.core = this.__fx.__getEmitterCore(type, this);
-        this.core.init(this);
-        this.core.__scaleMod = this._scaleMod;
-        this._xPosIntialized = this._yPosIntialized = false;
-    }
-}
-
-},{"./BaseEffect":"6ccWH","./FX":"1I3om","./util/DeepClone":"e1gkE","./util/FXSignal":"9TYhH","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e1gkE":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>deepClone);
-function deepClone(obj) {
-    if (typeof obj !== "object" || obj === null) return obj;
-    const clonedObj = Array.isArray(obj) ? [] : {};
-    for(const key in obj){
-        const value = obj[key];
-        clonedObj[key] = deepClone(value);
-    }
-    return clonedObj;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9TYhH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "FXSignal", ()=>FXSignal);
-parcelHelpers.export(exports, "FXSignalListener", ()=>FXSignalListener);
-var _linkedList = require("./LinkedList");
-class FXSignal {
-    constructor(){
-        this.__hasCallback = false;
-        this._list = new (0, _linkedList.LinkedList)();
-    }
-    add(callback, scope, callRate) {
-        this._list.add(new (0, _linkedList.Node)(new FXSignalListener(callback, scope, false, callRate)));
-        this.__hasCallback = true;
-    }
-    addOnce(callback, scope) {
-        this._list.add(new (0, _linkedList.Node)(new FXSignalListener(callback, scope, true)));
-        this.__hasCallback = true;
-    }
-    dispatch(...params) {
-        const list = this._list;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            let call = true;
-            const data = node.data;
-            if (data.callRate) {
-                if (data.calls++ % data.callRate != 0) call = false;
-            }
-            if (call) {
-                data.callback.apply(data.scope, params);
-                if (data.once) list.remove(node);
-            }
-            node = next;
-        }
-        this.__hasCallback = list.__length > 0;
-    }
-    remove(callback) {
-        const list = this._list;
-        let node = list.first;
-        let next;
-        while(node){
-            next = node.next;
-            if (node.data.callback === callback) {
-                list.remove(node);
-                return;
-            }
-            node = next;
-        }
-        this.__hasCallback = list.__length > 0;
-    }
-    removeAll() {
-        this._list.clear();
-        this.__hasCallback = false;
-    }
-}
-class FXSignalListener {
-    constructor(callback, scope, once, callRate){
-        this.callback = callback;
-        this.scope = scope;
-        this.once = once;
-        this.callRate = callRate;
-        this.calls = 0;
-    }
-}
-
-},{"./LinkedList":"55Vu6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a0poX":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Rnd", ()=>Rnd);
-class Rnd {
-    static float(min, max) {
-        return Math.random() * (max - min) + min;
-    }
-    static bool(chance = 0.5) {
-        return Math.random() < chance;
-    }
-    static sign(chance = 0.5) {
-        return Math.random() < chance ? 1 : -1;
-    }
-    static bit(chance = 0.5) {
-        return Math.random() < chance ? 1 : 0;
-    }
-    static integer(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iD0EN":[function(require,module,exports) {
+},{"pixi.js":"1arn0","./ComponentType":"aBsww","./EffectSequence":"5FgwV","./EffectSequenceComponentType":"4AclN","./MovieClip":"4ia7M","./Particle":"izkSw","./ParticleEmitter":"eMwca","./Sanitizer":"9G5Hf","./Sprite":"hjtXT","./core/BoxEmitterCore":"3MLoE","./core/CircleEmitterCore":"hMQ8M","./core/RingEmitterCore":"6HR0u","./util/DeepClone":"eXaoL","./util/LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4ia7M":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -54966,7 +55120,7 @@ class MovieClip extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b2W0V":[function(require,module,exports) {
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"izkSw":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -55260,7 +55414,7 @@ class Particle extends (0, _linkedList.Node) {
     }
 }
 
-},{"./util/Color":"6c0ie","./util/Easing":"aHH3h","./util/FXSignal":"9TYhH","./util/LinkedList":"55Vu6","./util/Rnd":"a0poX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6c0ie":[function(require,module,exports) {
+},{"./util/Color":"ggcVh","./util/Easing":"edOGW","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ggcVh":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Color", ()=>Color);
@@ -55295,7 +55449,7 @@ class Color {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aHH3h":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"edOGW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "EasingType", ()=>EasingType);
@@ -55489,7 +55643,74 @@ class Easing {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h9AGS":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aDu25":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "FXSignal", ()=>FXSignal);
+parcelHelpers.export(exports, "FXSignalListener", ()=>FXSignalListener);
+var _linkedList = require("./LinkedList");
+class FXSignal {
+    constructor(){
+        this.__hasCallback = false;
+        this._list = new (0, _linkedList.LinkedList)();
+    }
+    add(callback, scope, callRate) {
+        this._list.add(new (0, _linkedList.Node)(new FXSignalListener(callback, scope, false, callRate)));
+        this.__hasCallback = true;
+    }
+    addOnce(callback, scope) {
+        this._list.add(new (0, _linkedList.Node)(new FXSignalListener(callback, scope, true)));
+        this.__hasCallback = true;
+    }
+    dispatch(...params) {
+        const list = this._list;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            let call = true;
+            const data = node.data;
+            if (data.callRate) {
+                if (data.calls % data.callRate != 0) call = false;
+            }
+            if (call) {
+                data.callback.apply(data.scope, params);
+                if (data.once) list.remove(node);
+            }
+            node = next;
+        }
+        this.__hasCallback = list.__length > 0;
+    }
+    remove(callback) {
+        const list = this._list;
+        let node = list.first;
+        let next;
+        while(node){
+            next = node.next;
+            if (node.data.callback === callback) {
+                list.remove(node);
+                return;
+            }
+            node = next;
+        }
+        this.__hasCallback = list.__length > 0;
+    }
+    removeAll() {
+        this._list.clear();
+        this.__hasCallback = false;
+    }
+}
+class FXSignalListener {
+    constructor(callback, scope, once, callRate){
+        this.callback = callback;
+        this.scope = scope;
+        this.once = once;
+        this.callRate = callRate;
+        this.calls = 0;
+    }
+}
+
+},{"./LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9G5Hf":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Sanitizer", ()=>Sanitizer);
@@ -55664,7 +55885,7 @@ Sanitizer._presetStructure = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7td6h":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hjtXT":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -55696,202 +55917,21 @@ class Sprite extends _pixiJs.Sprite {
     }
 }
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aGdLB":[function(require,module,exports) {
-/// <reference types="pixi.js" />
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eXaoL":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore);
-var _rnd = require("../util/Rnd");
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _emitterType = require("./EmitterType");
-class BoxEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _emitterType.EmitterType).Box);
+parcelHelpers.export(exports, "default", ()=>deepClone);
+function deepClone(obj) {
+    if (typeof obj !== "object" || obj === null) return obj;
+    const clonedObj = Array.isArray(obj) ? [] : {};
+    for(const key in obj){
+        const value = obj[key];
+        clonedObj[key] = deepClone(value);
     }
-    // *********************************************************************************************
-    // * Public																					   *
-    // *********************************************************************************************
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        const w2 = settings.width * 0.5 * this.__scaleMod;
-        const h2 = settings.height * 0.5 * this.__scaleMod;
-        let angle = emitter.rotation;
-        const x = (0, _rnd.Rnd).float(-w2, w2);
-        const y = (0, _rnd.Rnd).float(-h2, h2);
-        if (angle != 0) {
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + x * Math.cos(angle) - y * Math.sin(angle);
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + x * Math.sin(angle) + y * Math.cos(angle);
-        } else {
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + x;
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + y;
-        }
-        if (settings.radial) {
-            angle += Math.atan2(y, x);
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-        }
-        particle.component.rotation = angle;
-        this._t += this._posInterpolationStep;
-    }
+    return clonedObj;
 }
 
-},{"../util/Rnd":"a0poX","./BaseEmitterCore":"2BsJ6","./EmitterType":"6hbWQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2BsJ6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore);
-class BaseEmitterCore {
-    constructor(type){
-        this.type = type;
-        this._dx = 0;
-        this._dy = 0;
-        this._rotation = 0;
-    }
-    // *********************************************************************************************
-    // * Public			                                        								   *
-    // *********************************************************************************************
-    init(emitter) {
-        this.emitter = emitter;
-        this._settings = emitter.settings.core.params;
-        this.x = this.__x = emitter.x;
-        this.y = this.__y = emitter.y;
-        this.rotation = emitter.rotation;
-    }
-    emit(particle) {}
-    prepare(spawnCount) {
-        this._posInterpolationStep = 1 / spawnCount;
-        this._t = this._posInterpolationStep * 0.5;
-    }
-    step() {
-        this.__x = this.x;
-        this.__y = this.y;
-    }
-    recycle() {
-        this.emitter = null;
-        this._settings = null;
-    }
-    dispose() {
-        this.recycle();
-        this.emitter = null;
-        this._settings = null;
-    }
-    get rotation() {
-        return this._rotation;
-    }
-    set rotation(value) {
-        this._rotation = value;
-        this._dx = Math.cos(value);
-        this._dy = Math.sin(value);
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6hbWQ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "EmitterType", ()=>EmitterType);
-var EmitterType;
-(function(EmitterType) {
-    EmitterType["Circle"] = "circle";
-    EmitterType["Box"] = "box";
-    EmitterType["Ring"] = "ring";
-})(EmitterType || (EmitterType = {}));
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"VlyZK":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore);
-var _rnd = require("../util/Rnd");
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _emitterType = require("./EmitterType");
-class CircleEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _emitterType.EmitterType).Circle);
-    }
-    // *********************************************************************************************
-    // * Public																	                   *
-    // *********************************************************************************************
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        let angle;
-        if (!settings.angle) angle = (0, _rnd.Rnd).float(0, 6.28319) + emitter.rotation;
-        else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
-        if (settings.radius > 0) {
-            let r = (0, _rnd.Rnd).float(0, settings.radius) * this.__scaleMod;
-            particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
-            particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
-        } else {
-            particle.component.x = this.__x + this._t * (this.x - this.__x);
-            particle.component.y = this.__y + this._t * (this.y - this.__y);
-        }
-        if (settings.radial) {
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-            particle.component.rotation = angle;
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-            particle.component.rotation = emitter.rotation;
-        }
-        this._t += this._posInterpolationStep;
-    }
-}
-
-},{"../util/Rnd":"a0poX","./BaseEmitterCore":"2BsJ6","./EmitterType":"6hbWQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d7oDU":[function(require,module,exports) {
-/// <reference types="pixi.js" />
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore);
-var _rnd = require("../util/Rnd");
-var _baseEmitterCore = require("./BaseEmitterCore");
-var _emitterType = require("./EmitterType");
-class RingEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
-    constructor(){
-        super((0, _emitterType.EmitterType).Ring);
-    }
-    // *********************************************************************************************
-    // * Public																		               *
-    // *********************************************************************************************
-    prepare(spawnCount) {
-        super.prepare(spawnCount);
-        const angle = this._settings.angle;
-        if (2 * Math.PI - angle < 0.1) {
-            this._uniformStep = angle / spawnCount;
-            this._angle = angle;
-        } else {
-            this._uniformStep = angle / (spawnCount - 1);
-            this._angle = -angle * 0.5;
-        }
-    }
-    emit(particle) {
-        const settings = this._settings;
-        const emitter = this.emitter;
-        let angle;
-        if (settings.uniform) {
-            angle = this._angle + emitter.rotation;
-            this._angle += this._uniformStep;
-        } else angle = (0, _rnd.Rnd).float(-settings.angle * 0.5, settings.angle * 0.5) + emitter.rotation;
-        const r = settings.radius * this.__scaleMod;
-        particle.component.x = this.__x + this._t * (this.x - this.__x) + Math.cos(angle) * r;
-        particle.component.y = this.__y + this._t * (this.y - this.__y) + Math.sin(angle) * r;
-        if (settings.radial) {
-            particle.dx = Math.cos(angle);
-            particle.dy = Math.sin(angle);
-            particle.component.rotation = angle;
-        } else {
-            particle.dx = this._dx;
-            particle.dy = this._dy;
-            particle.component.rotation = emitter.rotation;
-        }
-        this._t += this._posInterpolationStep;
-    }
-}
-
-},{"../util/Rnd":"a0poX","./BaseEmitterCore":"2BsJ6","./EmitterType":"6hbWQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"43uPj":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"43uPj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
@@ -56125,7 +56165,164 @@ class Random {
 }
 exports.default = Random;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hwcFB":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k9Fih":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _gsap = require("gsap");
+var _pixiJs = require("pixi.js");
+var _random = require("./random");
+var _randomDefault = parcelHelpers.interopDefault(_random);
+class EnergyShield {
+    constructor(){
+        this.info = "Energy Shield - Click to fire";
+    }
+    start(main) {
+        this.main = main;
+        const container = this.container = main.containers.standard;
+        const content = this.content = new _pixiJs.Container();
+        container.addChild(content);
+        content.interactive = true;
+        const centerX = main.width * 0.5;
+        const centerY = main.height * 0.5;
+        const back = _pixiJs.Sprite.from("fx-light01");
+        back.tint = 0x015562;
+        back.anchor.set(0.5);
+        back.x = centerX;
+        back.y = centerY;
+        back.alpha = 0.4;
+        back.scale.set(4);
+        content.addChild(back);
+        this.shots = [];
+        this.guns = [];
+        this.shield = new Shield(main.fx, this);
+        content.addChild(this.shield);
+        let count = 10;
+        const step = 2 * Math.PI / count;
+        let angle = 0;
+        while(count--){
+            const gun = new Gun(main.fx, this, this.shield);
+            content.addChild(gun);
+            this.guns.push(gun);
+            gun.x = centerX + Math.cos(angle) * 500;
+            gun.y = centerY + Math.sin(angle) * 290;
+            angle += step;
+        }
+        main.app.ticker.add(this.update, this);
+        content.on("pointerdown", (e)=>{
+            const gun = this.guns[(0, _randomDefault.default).integer(0, this.guns.length - 1)];
+            gun.fire();
+        });
+    }
+    update(d) {
+        this.shield.update(d.deltaTime);
+        let n = this.guns.length;
+        while(n--)this.guns[n].update(d.deltaTime);
+        n = this.shots.length;
+        while(n--)this.shots[n].update(d.deltaTime);
+    }
+    stop() {
+        const main = this.main;
+        this.container.removeChild(this.content);
+        main.containers.floor.visible = false;
+        main.app.ticker.remove(this.update, this);
+        main.fx.stopAllEffects();
+    }
+}
+exports.default = EnergyShield;
+class Shield extends _pixiJs.Container {
+    constructor(fx, base){
+        super();
+        this.base = base;
+        this.fx = fx;
+        const logo = _pixiJs.Sprite.from("logo");
+        logo.anchor.set(0.5);
+        logo.scale.set(0.3);
+        logo.alpha = 0.6;
+        this.addChild(logo);
+        const emitter = fx.getParticleEmitter("plasma-shield");
+        emitter.init(this);
+        this.baseX = base.main.width * 0.5;
+        this.baseY = base.main.height * 0.5;
+        this.mod = 0;
+        this.radius = 150;
+    }
+    update() {
+        this.x = this.baseX + Math.sin(this.mod++ * 0.005) * 90;
+        this.y = this.baseY + Math.sin(this.mod++ * 0.009) * 60;
+    }
+    hit(shot) {
+        const effect = this.fx.getEffectSequence("plasma-shield-hit");
+        effect.init(this.base.container);
+        effect.x = this.x;
+        effect.y = this.y;
+        effect.rotation = shot.rotation - Math.PI;
+    }
+}
+class Gun extends _pixiJs.Sprite {
+    constructor(fx, base, target){
+        super(_pixiJs.Texture.from("gun"));
+        this.anchor.set(0.5);
+        this.base = base;
+        this.target = target;
+        this.fx = fx;
+    }
+    fire() {
+        this.update();
+        const shot = new Shot(this.fx, this.base, this.rotation);
+        this.base.content.addChild(shot);
+        shot.x = this.x + Math.cos(this.rotation) * 20;
+        shot.y = this.y + Math.sin(this.rotation) * 20;
+        const light = this.fx.getEffectSequence("white-light");
+        light.init(this.base.content, 0, true, 0.2);
+        light.x = shot.x;
+        light.y = shot.y;
+    }
+    update(dt) {
+        const dx = this.target.x - this.x;
+        const dy = this.target.y - this.y;
+        this.rotation = Math.atan2(dy, dx);
+    }
+}
+class Shot extends _pixiJs.Sprite {
+    constructor(fx, base, rotation){
+        super(_pixiJs.Texture.from("fx-light10"));
+        this.shield = base.shield;
+        this.shots = base.shots;
+        this.shots.push(this);
+        this.anchor.set(0.5, 0.5);
+        this.rotation = rotation;
+        this.dx = Math.cos(rotation);
+        this.dy = Math.sin(rotation);
+        this.blendMode = "add";
+        this.speed = 35;
+        this.scale.set(0, 0.8);
+        (0, _gsap.gsap).to(this, {
+            duration: 0.1,
+            pixi: {
+                scaleX: -1
+            }
+        });
+        this.tint = 0xD702D8;
+    }
+    update(dt) {
+        this.x += this.dx * this.speed * dt;
+        this.y += this.dy * this.speed * dt;
+        const dx = this.x - this.shield.x;
+        const dy = this.y - this.shield.y;
+        const r = this.shield.radius * this.shield.radius;
+        if (dx * dx + dy * dy <= r) {
+            this.shield.hit(this);
+            this.dispose();
+        }
+    }
+    dispose() {
+        this.parent.removeChild(this);
+        const index = this.shots.indexOf(this);
+        if (index > -1) this.shots.splice(index, 1);
+    }
+}
+
+},{"gsap":"fPSuC","pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hwcFB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _pixiJs = require("pixi.js");
@@ -56727,7 +56924,7 @@ class Mine extends _pixiJs.Sprite {
     }
 }
 
-},{"gsap":"fPSuC","pixi.js":"1arn0","../../../../../revolt-fx":"kRSLf","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fgfhP":[function(require,module,exports) {
+},{"gsap":"fPSuC","pixi.js":"1arn0","../../../../../revolt-fx":"fXezP","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fgfhP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
@@ -56996,163 +57193,274 @@ class PlasmaVulcan {
 }
 exports.default = PlasmaVulcan;
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k9Fih":[function(require,module,exports) {
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fOsGt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _gsap = require("gsap");
 var _pixiJs = require("pixi.js");
 var _random = require("./random");
 var _randomDefault = parcelHelpers.interopDefault(_random);
-class EnergyShield {
+class Spaceships {
     constructor(){
-        this.info = "Energy Shield - Click to fire";
+        this.info = "Spaceships - Click to launch one";
     }
     start(main) {
         this.main = main;
+        main.containers.floor.visible = true;
+        main.containers.floor.visible = false;
+        main.containers.gradient.visible = false;
+        main.containers.back.tint = 0x0a0a0a;
+        this.app = main.app;
         const container = this.container = main.containers.standard;
         const content = this.content = new _pixiJs.Container();
-        container.addChild(content);
-        content.interactive = true;
-        const centerX = main.width * 0.5;
-        const centerY = main.height * 0.5;
-        const back = _pixiJs.Sprite.from("fx-light01");
-        back.tint = 0x015562;
-        back.anchor.set(0.5);
-        back.x = centerX;
-        back.y = centerY;
-        back.alpha = 0.4;
-        back.scale.set(4);
+        const shipsContainer = new _pixiJs.Container();
+        const shipsBottomContainer = new _pixiJs.Container();
+        const stars = new _pixiJs.Container();
+        this.container.addChild(content);
+        var back = _pixiJs.Sprite.from("gradient2");
+        back.tint = 0x00C9FF;
+        back.anchor.y = 1;
+        back.width = main.width;
+        back.height = main.height;
+        back.y = main.height;
+        back.alpha = 0.1;
         content.addChild(back);
-        this.shots = [];
-        this.guns = [];
-        this.shield = new Shield(main.fx, this);
-        content.addChild(this.shield);
-        let count = 10;
-        const step = 2 * Math.PI / count;
-        let angle = 0;
-        while(count--){
-            const gun = new Gun(main.fx, this, this.shield);
-            content.addChild(gun);
-            this.guns.push(gun);
-            gun.x = centerX + Math.cos(angle) * 500;
-            gun.y = centerY + Math.sin(angle) * 290;
-            angle += step;
-        }
+        content.addChild(stars);
+        content.addChild(shipsBottomContainer);
+        content.addChild(shipsContainer);
+        content.interactive = true;
+        const starfield = main.fx.getParticleEmitter("top-starfield");
+        starfield.init(stars, true, 2);
+        starfield.x = main.width;
+        starfield.y = main.height * 0.5;
+        const spaceship = new BigSpaceship(main);
+        shipsContainer.addChild(spaceship);
+        this.ships = [
+            spaceship
+        ];
         main.app.ticker.add(this.update, this);
         content.on("pointerdown", (e)=>{
-            const gun = this.guns[(0, _randomDefault.default).integer(0, this.guns.length - 1)];
-            gun.fire();
+            this.ships.push(new Spaceship(main, shipsContainer, shipsBottomContainer));
+            this.ships.push(new Spaceship(main, shipsContainer, shipsBottomContainer));
         });
     }
     update(d) {
-        this.shield.update(d.deltaTime);
-        let n = this.guns.length;
-        while(n--)this.guns[n].update(d.deltaTime);
-        n = this.shots.length;
-        while(n--)this.shots[n].update(d.deltaTime);
+        let n = this.ships.length;
+        while(n--){
+            const ship = this.ships[n];
+            ship.update(d.deltaTime);
+            if (ship.x > this.main.width + 200) {
+                ship.dispose();
+                const index = this.ships.indexOf(ship);
+                if (index > -1) this.ships.splice(index, 1);
+            }
+        }
     }
     stop() {
         const main = this.main;
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
-        main.app.ticker.remove(this.update, this);
         main.fx.stopAllEffects();
     }
 }
-exports.default = EnergyShield;
-class Shield extends _pixiJs.Container {
-    constructor(fx, base){
+exports.default = Spaceships;
+class BigSpaceship extends _pixiJs.Container {
+    constructor(main){
         super();
-        this.base = base;
-        this.fx = fx;
-        const logo = _pixiJs.Sprite.from("logo");
-        logo.anchor.set(0.5);
-        logo.scale.set(0.3);
-        logo.alpha = 0.6;
-        this.addChild(logo);
-        const emitter = fx.getParticleEmitter("plasma-shield");
+        const ship = _pixiJs.Sprite.from("big-spaceship");
+        ship.anchor.set(0.5, 0.5);
+        this.addChild(ship);
+        this.x = this.startX = main.width * 0.6;
+        this.y = this.startY = main.height * 0.5;
+        const emitter = main.fx.getParticleEmitter("top-big-spaceship-engine");
         emitter.init(this);
-        this.baseX = base.main.width * 0.5;
-        this.baseY = base.main.height * 0.5;
+        emitter.x = -30;
         this.mod = 0;
-        this.radius = 150;
-    }
-    update() {
-        this.x = this.baseX + Math.sin(this.mod++ * 0.005) * 90;
-        this.y = this.baseY + Math.sin(this.mod++ * 0.009) * 60;
-    }
-    hit(shot) {
-        const effect = this.fx.getEffectSequence("plasma-shield-hit");
-        effect.init(this.base.container);
-        effect.x = this.x;
-        effect.y = this.y;
-        effect.rotation = shot.rotation - Math.PI;
-    }
-}
-class Gun extends _pixiJs.Sprite {
-    constructor(fx, base, target){
-        super(_pixiJs.Texture.from("gun"));
-        this.anchor.set(0.5);
-        this.base = base;
-        this.target = target;
-        this.fx = fx;
-    }
-    fire() {
-        this.update();
-        const shot = new Shot(this.fx, this.base, this.rotation);
-        this.base.content.addChild(shot);
-        shot.x = this.x + Math.cos(this.rotation) * 20;
-        shot.y = this.y + Math.sin(this.rotation) * 20;
-        const light = this.fx.getEffectSequence("white-light");
-        light.init(this.base.content, 0, true, 0.2);
-        light.x = shot.x;
-        light.y = shot.y;
     }
     update(dt) {
-        const dx = this.target.x - this.x;
-        const dy = this.target.y - this.y;
-        this.rotation = Math.atan2(dy, dx);
+        const d = Math.sin(this.mod++ * 0.01);
+        this.y = this.startY + d * 60;
     }
 }
-class Shot extends _pixiJs.Sprite {
-    constructor(fx, base, rotation){
-        super(_pixiJs.Texture.from("fx-light10"));
-        this.shield = base.shield;
-        this.shots = base.shots;
-        this.shots.push(this);
-        this.anchor.set(0.5, 0.5);
-        this.rotation = rotation;
-        this.dx = Math.cos(rotation);
-        this.dy = Math.sin(rotation);
-        this.blendMode = "add";
-        this.speed = 35;
-        this.scale.set(0, 0.8);
-        (0, _gsap.gsap).to(this, {
-            duration: 0.1,
-            pixi: {
-                scaleX: -1
-            }
-        });
-        this.tint = 0xD702D8;
+class Spaceship extends _pixiJs.Container {
+    constructor(main, topContainer, bottomContainer){
+        super();
+        const ship = _pixiJs.Sprite.from("spaceship");
+        ship.anchor.set(0.5, 0.5);
+        this.addChild(ship);
+        const emitter = this.emitter = main.fx.getParticleEmitter("top-spaceship-engine");
+        if (Math.random() > 0.5) {
+            //Add ship on top
+            topContainer.addChild(this);
+            this.scaleFac = 1.5;
+            emitter.init(topContainer, true, this.scaleFac * (0, _randomDefault.default).float(0.8, 1.1));
+        } else {
+            //Add ship at bottom
+            bottomContainer.addChildAt(this, 0);
+            this.scaleFac = 0.5;
+            emitter.init(bottomContainer, true, this.scaleFac * (0, _randomDefault.default).float(0.8, 1.1));
+        }
+        this.scale.set(this.scaleFac, this.scaleFac);
+        this.speed = (0, _randomDefault.default).float(3, 8) * this.scaleFac;
+        emitter.target = this;
+        emitter.targetOffset = -50 * this.scaleFac;
+        this.x = -50;
+        this.y = (0, _randomDefault.default).float(main.height * 0.05, main.height * 0.95);
+        this.rotation = (0, _randomDefault.default).float(0.3, -0.3);
+        this.dx = Math.cos(this.rotation);
+        this.dy = Math.sin(this.rotation);
     }
     update(dt) {
         this.x += this.dx * this.speed * dt;
         this.y += this.dy * this.speed * dt;
-        const dx = this.x - this.shield.x;
-        const dy = this.y - this.shield.y;
-        const r = this.shield.radius * this.shield.radius;
-        if (dx * dx + dy * dy <= r) {
-            this.shield.hit(this);
-            this.dispose();
-        }
     }
     dispose() {
-        this.parent.removeChild(this);
-        const index = this.shots.indexOf(this);
-        if (index > -1) this.shots.splice(index, 1);
+        this.emitter.stop(false);
     }
 }
 
-},{"gsap":"fPSuC","pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["j2YDk","1SICI"], "1SICI", "parcelRequire94c2")
+},{"pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHkau":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _pixiJs = require("pixi.js");
+class StoneSplash {
+    constructor(){
+        this.info = "Stone Splash - Click to throw some stones";
+    }
+    start(main) {
+        this.main = main;
+        main.containers.floor.visible = true;
+        this.app = main.app;
+        const container = this.container = main.containers.standard;
+        const content = this.content = new _pixiJs.Container();
+        const shadows = this.shadows = new _pixiJs.Container();
+        this.container.addChild(shadows);
+        this.container.addChild(content);
+        main.containers.floor.visible = false;
+        content.interactive = true;
+        main.containers.gradient.visible = false;
+        main.containers.back.tint = 0x134949;
+        const back = _pixiJs.Sprite.from("gradient2");
+        back.tint = 0x565707;
+        back.anchor.y = 1;
+        back.width = main.width;
+        back.height = main.height;
+        back.y = main.height;
+        back.alpha = 0.3;
+        back.blendMode = "add";
+        content.addChild(back);
+        const ocean = main.fx.getParticleEmitter("top-ocean-sub1", true, true);
+        ocean.init(container);
+        ocean.settings.particleSettings.alphaStartMin = 0.6;
+        ocean.settings.particleSettings.alphaStartMax = 0.8;
+        ocean.x = main.width * 0.4;
+        ocean.y = main.height * 0.5;
+        const throwStones = (x, y)=>{
+            const emitter = main.fx.getParticleEmitter("top-stone-splash");
+            emitter.x = x;
+            emitter.y = y;
+            //Attach a shadow to each stone particle
+            emitter.on.particleSpawned.add((particle)=>{
+                this.shadows.addChild(new Shadow(particle));
+            });
+            emitter.init(container);
+        };
+        content.on("pointerdown", (e)=>{
+            const local = e.getLocalPosition(content);
+            throwStones(local.x, local.y);
+        });
+    }
+    update() {}
+    stop() {
+        const main = this.main;
+        this.container.removeChild(this.content);
+        main.containers.floor.visible = false;
+        main.fx.stopAllEffects();
+    }
+}
+exports.default = StoneSplash;
+class Shadow extends _pixiJs.Sprite {
+    constructor(particle){
+        super(_pixiJs.Texture.from("fx-dot"));
+        this.tint = 0;
+        this.alpha = 0.75;
+        this.anchor.set(0.5, 0.5);
+        //Register to particle update signals
+        particle.on.updated.add((particle)=>{
+            const fac = Math.sin(particle.time * Math.PI * 1.1);
+            this.x = particle.x + 35 * fac;
+            this.y = particle.y + 35 * fac;
+            const scale = 1.1 - 0.2 * fac;
+            this.scale.set(scale, scale);
+        });
+        particle.on.died.addOnce((particle)=>{
+            this.parent.removeChild(this);
+        });
+    }
+}
+
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"duOWz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _pixiJs = require("pixi.js");
+var _random = require("./random");
+var _randomDefault = parcelHelpers.interopDefault(_random);
+class Storm {
+    constructor(){
+        this.info = "Storm";
+    }
+    start(main) {
+        this.main = main;
+        main.containers.floor.visible = true;
+        this.fx = main.fx;
+        const container = this.container = main.containers.standard;
+        const content = this.content = new _pixiJs.Container();
+        this.container.addChild(content);
+        const back = _pixiJs.Sprite.from("gradient2");
+        back.tint = 0x32231E;
+        back.anchor.y = 1;
+        back.width = main.width;
+        back.height = 800;
+        back.y = main.floorY;
+        back.alpha = 0.9;
+        content.addChild(back);
+        const clouds = main.fx.getParticleEmitter("side-clouds");
+        clouds.init(container);
+        clouds.y = 50;
+        const rain = main.fx.getParticleEmitter("side-rain", true, true);
+        rain.settings.core.params.height = main.width * 1.2;
+        rain.settings.spawnCountMin = 10;
+        rain.settings.spawnCountMax = 20;
+        rain.init(container);
+        rain.x = main.width * 0.5;
+        rain.y = 50;
+        this.update();
+        this.mod = 0;
+        main.app.ticker.add(this.update, this);
+    }
+    update() {
+        this.mod++;
+        if (this.mod % 20 == 0 && Math.random() > 0.6) {
+            var sequence = this.fx.getEffectSequence("white-light");
+            sequence.init(this.container, 0, true, (0, _randomDefault.default).float(2, 3));
+            sequence.x = (0, _randomDefault.default).float(10, this.main.width - 10);
+            sequence.y = (0, _randomDefault.default).float(-100, -50);
+        }
+        if (this.mod % 30 == 0 && Math.random() > 0.6) {
+            var sequence = this.fx.getEffectSequence("side-lightning");
+            sequence.init(this.container, 0, true, (0, _randomDefault.default).float(1.5, 2.5));
+            sequence.x = (0, _randomDefault.default).float(10, this.main.width - 10);
+            sequence.y = (0, _randomDefault.default).float(10, 50);
+        }
+    }
+    stop() {
+        const main = this.main;
+        this.container.removeChild(this.content);
+        main.containers.floor.visible = false;
+        main.fx.stopAllEffects();
+    }
+}
+exports.default = Storm;
+
+},{"pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["j2YDk","1SICI"], "1SICI", "parcelRequire94c2")
 
 //# sourceMappingURL=index.18dbc454.js.map
