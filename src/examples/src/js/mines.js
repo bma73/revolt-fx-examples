@@ -1,7 +1,7 @@
 import { Bounce, gsap } from "gsap";
 import * as PIXI from 'pixi.js';
 
-import { EffectSequenceComponentType } from '../../../../../revolt-fx';
+import { EffectSequenceComponentType } from 'revolt-fx';
 import Random from './random';
 
 export default class Mines {

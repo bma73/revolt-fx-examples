@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import * as PIXI from 'pixi.js';
 
-import { FX } from '../../../../../revolt-fx';
+import { FX } from 'revolt-fx';
 
 
 import Aliens from "./aliens";
@@ -28,7 +28,7 @@ class Main {
     floorY = 590;
 
     app;
-    index = 1;
+    index = 0;
     root;
     infoText;
     nextButton;
@@ -171,9 +171,7 @@ class Main {
         containers.nav.addChild(this.nextButton);
         this.nextButton.x = this.width - 20;
         this.nextButton.y = this.height - 20;
-        this.nextButton.on('pointerup', () => {
-
-        });
+        this.nextButton.on('pointerup', () => this.next(1));
 
         this.prevButton = PIXI.Sprite.from('arrow');
         this.prevButton.interactive = true;
@@ -182,10 +180,7 @@ class Main {
         containers.nav.addChild(this.prevButton);
         this.prevButton.x = 20;
         this.prevButton.y = this.height - 20;
-        this.prevButton.on('pointerup', function () {
-            //example.next(-1);
-        });
-
+        this.prevButton.on('pointerup', () => this.next(-1));
     }
 
     info(text) {

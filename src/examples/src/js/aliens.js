@@ -81,8 +81,8 @@ export default class Aliens {
 
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
-        app.ticker.remove(this.update, this);
-        fx.stopAllEffects();
+        main.app.ticker.remove(this.update, this);
+        main.fx.stopAllEffects();
     }
 }
 

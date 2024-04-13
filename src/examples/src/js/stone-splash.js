@@ -81,7 +81,7 @@ class Shadow extends PIXI.Sprite {
     constructor(particle) {
         super(PIXI.Texture.from('fx-dot'));
         this.tint = 0;
-        this.alpha = 0.75;
+        this.alpha = 0.5;
         this.anchor.set(0.5, 0.5);
 
         //Register to particle update signals

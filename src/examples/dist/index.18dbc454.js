@@ -588,7 +588,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _gsap = require("gsap");
 var _pixiPlugin = require("gsap/PixiPlugin");
 var _pixiJs = require("pixi.js");
-var _revoltFx = require("../../../../../revolt-fx");
+var _revoltFx = require("revolt-fx");
 var _aliens = require("./aliens");
 var _aliensDefault = parcelHelpers.interopDefault(_aliens);
 var _energyShield = require("./energy-shield");
@@ -622,7 +622,7 @@ class Main {
     height = 640;
     floorY = 590;
     app;
-    index = 1;
+    index = 0;
     root;
     infoText;
     nextButton;
@@ -775,7 +775,7 @@ class Main {
         containers.nav.addChild(this.nextButton);
         this.nextButton.x = this.width - 20;
         this.nextButton.y = this.height - 20;
-        this.nextButton.on("pointerup", ()=>{});
+        this.nextButton.on("pointerup", ()=>this.next(1));
         this.prevButton = _pixiJs.Sprite.from("arrow");
         this.prevButton.interactive = true;
         this.prevButton.anchor.set(1);
@@ -783,9 +783,7 @@ class Main {
         containers.nav.addChild(this.prevButton);
         this.prevButton.x = 20;
         this.prevButton.y = this.height - 20;
-        this.prevButton.on("pointerup", function() {
-        //example.next(-1);
-        });
+        this.prevButton.on("pointerup", ()=>this.next(-1));
     }
     info(text) {
         this.infoText.text = text;
@@ -831,7 +829,7 @@ class Main {
 }
 new Main();
 
-},{"gsap":"fPSuC","gsap/PixiPlugin":"gMjqk","pixi.js":"1arn0","../../../../../revolt-fx":"fXezP","./aliens":"43uPj","./energy-shield":"k9Fih","./fairy-dust":"hwcFB","./fire-arc":"7B8vR","./fireworks":"8mSvE","./flamethrower":"hOQjl","./intro":"4V73i","./mines":"02JJB","./plasma-grenade":"fgfhP","./plasma-vulcan":"4hDyi","./spaceships":"fOsGt","./stone-splash":"cHkau","./storm":"duOWz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
+},{"gsap":"fPSuC","gsap/PixiPlugin":"gMjqk","pixi.js":"1arn0","revolt-fx":"7jSms","./aliens":"43uPj","./energy-shield":"k9Fih","./fairy-dust":"hwcFB","./fire-arc":"7B8vR","./fireworks":"8mSvE","./flamethrower":"hOQjl","./intro":"4V73i","./mines":"02JJB","./plasma-grenade":"fgfhP","./plasma-vulcan":"4hDyi","./spaceships":"fOsGt","./stone-splash":"cHkau","./storm":"duOWz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -53450,7 +53448,7 @@ function logRenderGroupScene(renderGroup, depth = 0, data = {
 },{"../../scene/sprite/Sprite.mjs":"1d55h","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7gCTg":[function(require,module,exports) {
 "use strict";
 
-},{}],"fXezP":[function(require,module,exports) {
+},{}],"7jSms":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "BaseEffect", ()=>(0, _baseEffect.BaseEffect));
@@ -53470,7 +53468,8 @@ parcelHelpers.export(exports, "Color", ()=>(0, _color.Color));
 parcelHelpers.export(exports, "Easing", ()=>(0, _easing.Easing));
 parcelHelpers.export(exports, "FXSignal", ()=>(0, _fxsignal.FXSignal));
 parcelHelpers.export(exports, "LinkedList", ()=>(0, _linkedList.LinkedList));
-parcelHelpers.export(exports, "Rnd", ()=>(0, _rnd.Rnd));
+parcelHelpers.export(exports, "Rnd", ()=>(0, _rnd.Rnd)) //# sourceMappingURL=index.js.map
+;
 var _baseEffect = require("./BaseEffect");
 var _componentType = require("./ComponentType");
 var _baseEmitterCore = require("./core/BaseEmitterCore");
@@ -53490,11 +53489,12 @@ var _fxsignal = require("./util/FXSignal");
 var _linkedList = require("./util/LinkedList");
 var _rnd = require("./util/Rnd");
 
-},{"./BaseEffect":"8PaYr","./ComponentType":"aBsww","./core/BaseEmitterCore":"k1zpP","./core/BoxEmitterCore":"3MLoE","./core/CircleEmitterCore":"hMQ8M","./core/RingEmitterCore":"6HR0u","./EffectSequence":"5FgwV","./EffectSequenceComponentType":"4AclN","./FX":"gqAw0","./MovieClip":"4ia7M","./Particle":"izkSw","./ParticleEmitter":"eMwca","./Sprite":"hjtXT","./util/Color":"ggcVh","./util/Easing":"edOGW","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8PaYr":[function(require,module,exports) {
+},{"./BaseEffect":"iBcbe","./ComponentType":"9u3R8","./core/BaseEmitterCore":"5rKf8","./core/BoxEmitterCore":"i6bxf","./core/CircleEmitterCore":"ecPOU","./core/RingEmitterCore":"hzAIp","./EffectSequence":"6lRH5","./EffectSequenceComponentType":"gQRwV","./FX":"jPZ7I","./MovieClip":"srdiO","./Particle":"gZs3O","./ParticleEmitter":"8agRU","./Sprite":"5RqNu","./util/Color":"itgDd","./util/Easing":"dpiwU","./util/FXSignal":"gZar2","./util/LinkedList":"cqQ8T","./util/Rnd":"krL1X","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iBcbe":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect);
+parcelHelpers.export(exports, "BaseEffect", ()=>BaseEffect) //# sourceMappingURL=BaseEffect.js.map
+;
 var _pixiJs = require("pixi.js");
 var _linkedList = require("./util/LinkedList");
 class BaseEffect extends (0, _linkedList.Node) {
@@ -53558,11 +53558,12 @@ class BaseEffect extends (0, _linkedList.Node) {
     __applySettings(value) {}
 }
 
-},{"pixi.js":"1arn0","./util/LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"khbvy":[function(require,module,exports) {
+},{"pixi.js":"1arn0","./util/LinkedList":"cqQ8T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cqQ8T":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "LinkedList", ()=>LinkedList);
-parcelHelpers.export(exports, "Node", ()=>Node);
+parcelHelpers.export(exports, "Node", ()=>Node) //# sourceMappingURL=LinkedList.js.map
+;
 class LinkedList {
     constructor(){
         this.__length = 0;
@@ -53632,7 +53633,7 @@ class Node {
     dispose() {}
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aBsww":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9u3R8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ComponentType", ()=>ComponentType);
@@ -53640,12 +53641,13 @@ var ComponentType;
 (function(ComponentType) {
     ComponentType[ComponentType["Sprite"] = 0] = "Sprite";
     ComponentType[ComponentType["MovieClip"] = 1] = "MovieClip";
-})(ComponentType || (ComponentType = {}));
+})(ComponentType || (ComponentType = {})); //# sourceMappingURL=ComponentType.js.map
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k1zpP":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5rKf8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore);
+parcelHelpers.export(exports, "BaseEmitterCore", ()=>BaseEmitterCore) //# sourceMappingURL=BaseEmitterCore.js.map
+;
 class BaseEmitterCore {
     constructor(type){
         this.type = type;
@@ -53691,11 +53693,12 @@ class BaseEmitterCore {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3MLoE":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i6bxf":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore);
+parcelHelpers.export(exports, "BoxEmitterCore", ()=>BoxEmitterCore) //# sourceMappingURL=BoxEmitterCore.js.map
+;
 var _rnd = require("../util/Rnd");
 var _baseEmitterCore = require("./BaseEmitterCore");
 var _emitterType = require("./EmitterType");
@@ -53734,10 +53737,11 @@ class BoxEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
     }
 }
 
-},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"622Na":[function(require,module,exports) {
+},{"../util/Rnd":"krL1X","./BaseEmitterCore":"5rKf8","./EmitterType":"canAu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"krL1X":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Rnd", ()=>Rnd);
+parcelHelpers.export(exports, "Rnd", ()=>Rnd) //# sourceMappingURL=Rnd.js.map
+;
 class Rnd {
     static float(min, max) {
         return Math.random() * (max - min) + min;
@@ -53756,7 +53760,7 @@ class Rnd {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"KDr0o":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"canAu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "EmitterType", ()=>EmitterType);
@@ -53765,13 +53769,14 @@ var EmitterType;
     EmitterType["Circle"] = "circle";
     EmitterType["Box"] = "box";
     EmitterType["Ring"] = "ring";
-})(EmitterType || (EmitterType = {}));
+})(EmitterType || (EmitterType = {})); //# sourceMappingURL=EmitterType.js.map
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hMQ8M":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ecPOU":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore);
+parcelHelpers.export(exports, "CircleEmitterCore", ()=>CircleEmitterCore) //# sourceMappingURL=CircleEmitterCore.js.map
+;
 var _rnd = require("../util/Rnd");
 var _baseEmitterCore = require("./BaseEmitterCore");
 var _emitterType = require("./EmitterType");
@@ -53809,11 +53814,12 @@ class CircleEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
     }
 }
 
-},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6HR0u":[function(require,module,exports) {
+},{"../util/Rnd":"krL1X","./BaseEmitterCore":"5rKf8","./EmitterType":"canAu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hzAIp":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore);
+parcelHelpers.export(exports, "RingEmitterCore", ()=>RingEmitterCore) //# sourceMappingURL=RingEmitterCore.js.map
+;
 var _rnd = require("../util/Rnd");
 var _baseEmitterCore = require("./BaseEmitterCore");
 var _emitterType = require("./EmitterType");
@@ -53859,11 +53865,12 @@ class RingEmitterCore extends (0, _baseEmitterCore.BaseEmitterCore) {
     }
 }
 
-},{"../util/Rnd":"622Na","./BaseEmitterCore":"k1zpP","./EmitterType":"KDr0o","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5FgwV":[function(require,module,exports) {
+},{"../util/Rnd":"krL1X","./BaseEmitterCore":"5rKf8","./EmitterType":"canAu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6lRH5":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence);
+parcelHelpers.export(exports, "EffectSequence", ()=>EffectSequence) //# sourceMappingURL=EffectSequence.js.map
+;
 var _baseEffect = require("./BaseEffect");
 var _effectSequenceComponentType = require("./EffectSequenceComponentType");
 var _particleEmitter = require("./ParticleEmitter");
@@ -54107,7 +54114,7 @@ class EffectSequence extends (0, _baseEffect.BaseEffect) {
     }
 }
 
-},{"./BaseEffect":"8PaYr","./EffectSequenceComponentType":"4AclN","./ParticleEmitter":"eMwca","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4AclN":[function(require,module,exports) {
+},{"./BaseEffect":"iBcbe","./EffectSequenceComponentType":"gQRwV","./ParticleEmitter":"8agRU","./util/FXSignal":"gZar2","./util/LinkedList":"cqQ8T","./util/Rnd":"krL1X","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gQRwV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "EffectSequenceComponentType", ()=>EffectSequenceComponentType);
@@ -54117,13 +54124,14 @@ var EffectSequenceComponentType;
     EffectSequenceComponentType[EffectSequenceComponentType["MovieClip"] = 1] = "MovieClip";
     EffectSequenceComponentType[EffectSequenceComponentType["Emitter"] = 2] = "Emitter";
     EffectSequenceComponentType[EffectSequenceComponentType["Trigger"] = 3] = "Trigger";
-})(EffectSequenceComponentType || (EffectSequenceComponentType = {}));
+})(EffectSequenceComponentType || (EffectSequenceComponentType = {})); //# sourceMappingURL=EffectSequenceComponentType.js.map
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eMwca":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8agRU":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "ParticleEmitter", ()=>ParticleEmitter);
+parcelHelpers.export(exports, "ParticleEmitter", ()=>ParticleEmitter) //# sourceMappingURL=ParticleEmitter.js.map
+;
 var _baseEffect = require("./BaseEffect");
 var _fx = require("./FX");
 var _deepClone = require("./util/DeepClone");
@@ -54536,7 +54544,7 @@ class ParticleEmitter extends (0, _baseEffect.BaseEffect) {
     }
 }
 
-},{"./BaseEffect":"8PaYr","./FX":"gqAw0","./util/DeepClone":"eXaoL","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gqAw0":[function(require,module,exports) {
+},{"./BaseEffect":"iBcbe","./FX":"jPZ7I","./util/DeepClone":"erYZZ","./util/FXSignal":"gZar2","./util/LinkedList":"cqQ8T","./util/Rnd":"krL1X","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jPZ7I":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -55082,13 +55090,14 @@ var SpawnType;
 (function(SpawnType) {
     SpawnType[SpawnType["ParticleEmitter"] = 0] = "ParticleEmitter";
     SpawnType[SpawnType["EffectSequence"] = 1] = "EffectSequence";
-})(SpawnType || (SpawnType = {}));
+})(SpawnType || (SpawnType = {})); //# sourceMappingURL=FX.js.map
 
-},{"pixi.js":"1arn0","./ComponentType":"aBsww","./EffectSequence":"5FgwV","./EffectSequenceComponentType":"4AclN","./MovieClip":"4ia7M","./Particle":"izkSw","./ParticleEmitter":"eMwca","./Sanitizer":"9G5Hf","./Sprite":"hjtXT","./core/BoxEmitterCore":"3MLoE","./core/CircleEmitterCore":"hMQ8M","./core/RingEmitterCore":"6HR0u","./util/DeepClone":"eXaoL","./util/LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4ia7M":[function(require,module,exports) {
+},{"pixi.js":"1arn0","./ComponentType":"9u3R8","./EffectSequence":"6lRH5","./EffectSequenceComponentType":"gQRwV","./MovieClip":"srdiO","./Particle":"gZs3O","./ParticleEmitter":"8agRU","./Sanitizer":"lCg67","./Sprite":"5RqNu","./core/BoxEmitterCore":"i6bxf","./core/CircleEmitterCore":"ecPOU","./core/RingEmitterCore":"hzAIp","./util/DeepClone":"erYZZ","./util/LinkedList":"cqQ8T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"srdiO":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MovieClip", ()=>MovieClip);
+parcelHelpers.export(exports, "MovieClip", ()=>MovieClip) //# sourceMappingURL=MovieClip.js.map
+;
 var _pixiJs = require("pixi.js");
 class MovieClip extends _pixiJs.AnimatedSprite {
     constructor(componentId, textures, anchorX, anchorY){
@@ -55120,11 +55129,12 @@ class MovieClip extends _pixiJs.AnimatedSprite {
     }
 }
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"izkSw":[function(require,module,exports) {
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gZs3O":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Particle", ()=>Particle);
+parcelHelpers.export(exports, "Particle", ()=>Particle) //# sourceMappingURL=Particle.js.map
+;
 var _color = require("./util/Color");
 var _easing = require("./util/Easing");
 var _fxsignal = require("./util/FXSignal");
@@ -55414,10 +55424,11 @@ class Particle extends (0, _linkedList.Node) {
     }
 }
 
-},{"./util/Color":"ggcVh","./util/Easing":"edOGW","./util/FXSignal":"aDu25","./util/LinkedList":"khbvy","./util/Rnd":"622Na","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ggcVh":[function(require,module,exports) {
+},{"./util/Color":"itgDd","./util/Easing":"dpiwU","./util/FXSignal":"gZar2","./util/LinkedList":"cqQ8T","./util/Rnd":"krL1X","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"itgDd":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Color", ()=>Color);
+parcelHelpers.export(exports, "Color", ()=>Color) //# sourceMappingURL=Color.js.map
+;
 class Color {
     constructor(){}
     // *********************************************************************************************
@@ -55449,11 +55460,12 @@ class Color {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"edOGW":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dpiwU":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "EasingType", ()=>EasingType);
-parcelHelpers.export(exports, "Easing", ()=>Easing);
+parcelHelpers.export(exports, "Easing", ()=>Easing) //# sourceMappingURL=Easing.js.map
+;
 var EasingType;
 (function(EasingType) {
     EasingType["Linear"] = "linear";
@@ -55643,11 +55655,12 @@ class Easing {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aDu25":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gZar2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "FXSignal", ()=>FXSignal);
-parcelHelpers.export(exports, "FXSignalListener", ()=>FXSignalListener);
+parcelHelpers.export(exports, "FXSignalListener", ()=>FXSignalListener) //# sourceMappingURL=FXSignal.js.map
+;
 var _linkedList = require("./LinkedList");
 class FXSignal {
     constructor(){
@@ -55710,7 +55723,7 @@ class FXSignalListener {
     }
 }
 
-},{"./LinkedList":"khbvy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9G5Hf":[function(require,module,exports) {
+},{"./LinkedList":"cqQ8T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lCg67":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Sanitizer", ()=>Sanitizer);
@@ -55883,13 +55896,14 @@ Sanitizer._presetStructure = {
         adoptRotation: true,
         containerId: ""
     }
-};
+}; //# sourceMappingURL=Sanitizer.js.map
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hjtXT":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5RqNu":[function(require,module,exports) {
 /// <reference types="pixi.js" />
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Sprite", ()=>Sprite);
+parcelHelpers.export(exports, "Sprite", ()=>Sprite) //# sourceMappingURL=Sprite.js.map
+;
 var _pixiJs = require("pixi.js");
 class Sprite extends _pixiJs.Sprite {
     constructor(componentId, texture, anchorX, anchorY){
@@ -55917,7 +55931,7 @@ class Sprite extends _pixiJs.Sprite {
     }
 }
 
-},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eXaoL":[function(require,module,exports) {
+},{"pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"erYZZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>deepClone);
@@ -55929,7 +55943,7 @@ function deepClone(obj) {
         clonedObj[key] = deepClone(value);
     }
     return clonedObj;
-}
+} //# sourceMappingURL=DeepClone.js.map
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"43uPj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -55991,8 +56005,8 @@ class Aliens {
         const main = this.main;
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
-        app.ticker.remove(this.update, this);
-        fx.stopAllEffects();
+        main.app.ticker.remove(this.update, this);
+        main.fx.stopAllEffects();
     }
 }
 exports.default = Aliens;
@@ -56556,98 +56570,6 @@ class Obstacle extends _pixiJs.Graphics {
         this.y = main.height * 0.5 + Math.sin(angle) * dist;
     }
 }
-(function(app, fx) {
-    var e = {
-        info: "Flamethrower - Press to fire",
-        start: function(app, fx) {
-            example.containers.floor.visible = false;
-            this.app = app;
-            var container = this.container = example.containers.standard;
-            var content = this.content = new _pixiJs.Container();
-            this.container.addChild(content);
-            content.interactive = true;
-            // content.hitArea = new PIXI.Rectangle(0, 0, app.renderer.width, app.renderer.height);
-            var back = _pixiJs.Sprite.from("fx-light01");
-            back.tint = 0xFF3000;
-            back.anchor.set(0.5);
-            back.x = example.width * 0.5;
-            back.y = example.height * 0.5;
-            back.alpha = 0.2;
-            back.scale.set(4);
-            content.addChild(back);
-            this.obstacles = [];
-            var n = 10;
-            while(n--){
-                var obstacle = new Obstacle();
-                content.addChild(obstacle);
-                this.obstacles.push(obstacle);
-            }
-            this.weapon = _pixiJs.Sprite.from("gun");
-            content.addChild(this.weapon);
-            this.weapon.anchor.set(0.5, 0.5);
-            this.weapon.x = example.width * 0.5;
-            this.weapon.y = example.height * 0.5;
-            this.mousePos = app.renderer.plugins.interaction.mouse.global;
-            this.emitter = fx.getParticleEmitter("top-flamethrower", true, true);
-            this.emitter.settings.spawnCountMin = 10;
-            this.emitter.settings.spawnCountMax = 30;
-            this.emitter.init(container);
-            this.emitter.x = example.width * 0.5;
-            this.emitter.y = example.height * 0.5;
-            this.emitter.target = this.weapon;
-            //Check if particle hits obstacle - every 30th frame
-            var that = this;
-            this.emitter.on.particleSpawned.add(function(particle) {
-                particle.on.updated.add(function(particle) {
-                    var n = that.obstacles.length;
-                    while(n--){
-                        var obstacle = that.obstacles[n];
-                        var dx = obstacle.x - particle.x;
-                        var dy = obstacle.y - particle.y;
-                        if (dx * dx + dy * dy <= obstacle.radius * obstacle.radius * 0.9) particle.stop();
-                    }
-                }, null, 30);
-            });
-            this.emitter.paused = true;
-            var lookAt = function(e) {
-                var local = e.data.getLocalPosition(content);
-                var dx = local.x - that.weapon.x;
-                var dy = local.y - that.weapon.y;
-                that.weapon.rotation = Math.atan2(dy, dx);
-            };
-            content.on("pointerdown", function(e) {
-                lookAt(e);
-                that.emitter.paused = false;
-            });
-            content.on("pointerup", function(e) {
-                that.emitter.paused = true;
-            });
-            content.on("pointermove", function(e) {
-                lookAt(e);
-            });
-            this.mod = 60;
-        },
-        stop: function(app, fx) {
-            this.obstacles = null;
-            this.container.removeChild(this.content);
-            example.containers.floor.visible = false;
-            fx.stopAllEffects();
-        },
-        resize: function() {
-            this.content.hitArea = new _pixiJs.Rectangle(0, 0, this.app.renderer.width, this.app.renderer.height);
-        }
-    };
-    var Obstacle = function() {
-        _pixiJs.Graphics.call(this);
-        this.radius = example.rnd.float(30, 50);
-        this.beginFill(0x0a0a0a).drawCircle(0, 0, this.radius).endFill();
-        var angle = example.rnd.float(0, 2 * Math.PI);
-        var dist = example.rnd.float(140, 250);
-        this.x = example.width * 0.5 + Math.cos(angle) * dist;
-        this.y = example.height * 0.5 + Math.sin(angle) * dist;
-    };
-    Obstacle.prototype = Object.create(_pixiJs.Graphics.prototype);
-})();
 
 },{"pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4V73i":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -56703,62 +56625,9 @@ class Intro {
         main.containers.nav.visible = true;
         main.fx.stopAllEffects();
         main.containers.gradient.alpha = 1;
+        main.app.ticker.remove(this.update, this);
     }
-} /*(function (app, fx) {
-
-    var e = {
-        start: function (app, fx) {
-
-            var content = this.content = new PIXI.Container();
-            var logo = PIXI.Sprite.from('logo');
-            var glow = PIXI.Sprite.from('glow');
-
-            example.containers.back.tint = 0;
-            example.containers.gradient.alpha = 0.3;
-
-            var emitter = fx.getParticleEmitter('plasma-corona');
-
-
-            glow.scale.set(8);
-            logo.anchor.set(0.5);
-            glow.anchor.set(0.5);
-            logo.alpha = 0.6;
-            content.addChild(glow);
-            content.addChild(logo);
-            emitter.init(content, true, 1.9);
-            glow.alpha = 0.4;
-
-            content.x = example.width * 0.5;
-            content.y = example.height * 0.5;
-
-            content.alpha = 0;
-
-            example.containers.content.addChild(content);
-
-
-            TweenLite.to(content, 2, {pixi: {alpha: 1}});
-            setTimeout(function () {
-                example.next();
-            }, 3000);
-
-        },
-
-        stop: function (app, fx) {
-            this.content.parent.removeChild(this.content);
-            example.containers.stats.visible = true;
-            example.containers.nav.visible = true;
-            fx.stopAllEffects();
-            example.containers.gradient.alpha = 1;
-        },
-
-        resize: function() {
-
-        }
-    };
-
-    example.list.push(e);
-
-}());*/ 
+}
 exports.default = Intro;
 
 },{"gsap":"fPSuC","pixi.js":"1arn0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"02JJB":[function(require,module,exports) {
@@ -56766,7 +56635,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
 var _pixiJs = require("pixi.js");
-var _revoltFx = require("../../../../../revolt-fx");
+var _revoltFx = require("revolt-fx");
 var _random = require("./random");
 var _randomDefault = parcelHelpers.interopDefault(_random);
 class Mines {
@@ -56924,7 +56793,7 @@ class Mine extends _pixiJs.Sprite {
     }
 }
 
-},{"gsap":"fPSuC","pixi.js":"1arn0","../../../../../revolt-fx":"fXezP","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fgfhP":[function(require,module,exports) {
+},{"gsap":"fPSuC","pixi.js":"1arn0","revolt-fx":"7jSms","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fgfhP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _gsap = require("gsap");
@@ -57036,109 +56905,6 @@ class Saucer extends _pixiJs.Sprite {
         if (this.x + this.width < 0) this.init();
     }
 }
-(function(app, fx) {
-    var e = {
-        info: "Plasma Grenades - Click to fire",
-        start: function(app, fx) {
-            this.app = app;
-            example.containers.floor.visible = true;
-            var container = this.container = example.containers.standard;
-            var content = this.content = new _pixiJs.Container();
-            this.container.addChild(content);
-            content.interactive = true;
-            var back = _pixiJs.Sprite.from("gradient2");
-            back.tint = 0x00C9FF;
-            back.anchor.y = 1;
-            back.width = example.width;
-            back.height = example.height;
-            back.y = example.floorY;
-            back.alpha = 0.4;
-            content.addChild(back);
-            var that = this;
-            var rect = new _pixiJs.Rectangle();
-            var fire = function() {
-                var emitter = fx.getParticleEmitter("side-plasma-grenade");
-                emitter.init(container);
-                emitter.x = -10;
-                emitter.y = example.height * 0.5;
-                //Add  callback for particle update signal with a rate of 20 (always skip 20 frames/calls)
-                emitter.on.particleUpdated.add(function(particle) {
-                    //check if saucer has been hit
-                    var list = that.saucerList;
-                    for(var n = 0; n < list.length; n++){
-                        var saucer = list[n];
-                        rect.x = saucer.x - 70;
-                        rect.y = saucer.y - 50;
-                        rect.width = 140;
-                        rect.height = 50;
-                        if (rect.contains(particle.x, particle.y)) {
-                            //Saucer has been hit!
-                            particle.stop();
-                            saucer.explode();
-                            //Play explosion effect
-                            var explosion = fx.getEffectSequence("side-plasma-grenade-explosion");
-                            explosion.init(that.content, 0, true, example.rnd.float(0.9, 1.2));
-                            explosion.x = particle.x;
-                            explosion.y = particle.y;
-                            var index = list.indexOf(saucer);
-                            if (index > -1) that.saucerList.splice(index, 1);
-                        }
-                    }
-                }, null, 20);
-            };
-            content.on("pointerdown", function(e) {
-                fire();
-            });
-            app.ticker.add(this.update, this);
-            this.mod = 60;
-            this.saucerList = [];
-        },
-        update: function(dt) {
-            if (this.mod++ % 40 === 0 && Math.random() > 0.5 && this.saucerList.length < 8) {
-                var saucer = new Saucer();
-                this.content.addChild(saucer);
-                this.saucerList.push(saucer);
-            }
-            var n = this.saucerList.length;
-            while(n--)this.saucerList[n].update(dt);
-        },
-        stop: function(app, fx) {
-            this.saucerList = null;
-            this.container.removeChild(this.content);
-            example.containers.floor.visible = false;
-            app.ticker.remove(this.update, this);
-            fx.stopAllEffects();
-        },
-        resize: function() {}
-    };
-    var Saucer = function() {
-        _pixiJs.Sprite.call(this, _pixiJs.Texture.from("saucer1"));
-        this.anchor.set(0.5, 1);
-        this.baseY = example.floorY - example.rnd.float(10, 400);
-        this.init();
-    };
-    Saucer.prototype = Object.create(_pixiJs.Sprite.prototype);
-    Saucer.prototype.init = function() {
-        this.speed = example.rnd.float(2, 3);
-        this.x = example.width + this.width;
-        this.mod = Math.random() * 200;
-    };
-    Saucer.prototype.explode = function() {
-        TweenMax.to(this, 0.2, {
-            pixi: {
-                y: this.y - 100,
-                alpha: 0,
-                ease: (0, _gsap.Quart).easeOut
-            }
-        });
-    };
-    Saucer.prototype.update = function(dt) {
-        this.x -= this.speed * dt;
-        this.y = this.baseY + Math.sin(this.mod++ * 0.06) * 10;
-        if (this.x + this.width < 0) this.init();
-    };
-// example.list.push(e);
-})();
 
 },{"gsap":"fPSuC","pixi.js":"1arn0","./random":"gHgLq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4hDyi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -57259,6 +57025,7 @@ class Spaceships {
         const main = this.main;
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
+        main.app.ticker.remove(this.update, this);
         main.fx.stopAllEffects();
     }
 }
@@ -57382,7 +57149,7 @@ class Shadow extends _pixiJs.Sprite {
     constructor(particle){
         super(_pixiJs.Texture.from("fx-dot"));
         this.tint = 0;
-        this.alpha = 0.75;
+        this.alpha = 0.5;
         this.anchor.set(0.5, 0.5);
         //Register to particle update signals
         particle.on.updated.add((particle)=>{
@@ -57456,6 +57223,7 @@ class Storm {
         const main = this.main;
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
+        main.app.ticker.remove(this.update, this);
         main.fx.stopAllEffects();
     }
 }

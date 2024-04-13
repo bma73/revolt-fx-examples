@@ -77,6 +77,7 @@ export default class Spaceships {
 
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
+        main.app.ticker.remove(this.update, this);
 
         main.fx.stopAllEffects();
     }

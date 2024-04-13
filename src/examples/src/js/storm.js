@@ -65,6 +65,7 @@ export default class Storm {
 
         this.container.removeChild(this.content);
         main.containers.floor.visible = false;
+        main.app.ticker.remove(this.update, this);
 
         main.fx.stopAllEffects();
     }
